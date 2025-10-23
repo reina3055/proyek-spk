@@ -8,7 +8,7 @@
   <!-- Tailwind + Font -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  
+  <script src="./dashboard/main.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -126,7 +126,9 @@
         });
 
         if (response.ok) {
-          window.location.href = '/dashboard/dashboard.html';
+          const data = await response.json();
+          localStorage.setItem("token", data.token); //simpan token
+          window.location.href = '/dashboard/index.html';
         } else {
           const data = await response.json();
           showError(data.message || 'Login gagal. Periksa kembali username dan password Anda.');

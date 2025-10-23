@@ -1,0 +1,38 @@
+﻿≡ƒôª Struktur folder proyek (tanpa node_modules/.git):
+
+Γö£ΓöÇΓöÇ ≡ƒôä .env
+Γö£ΓöÇΓöÇ ≡ƒôü database
+Γöé   ΓööΓöÇΓöÇ ≡ƒôä seeds.sql
+Γö£ΓöÇΓöÇ ≡ƒôä package.json
+Γö£ΓöÇΓöÇ ≡ƒôü public
+Γöé   Γö£ΓöÇΓöÇ ≡ƒôü dashboard
+Γöé   Γöé   Γö£ΓöÇΓöÇ ≡ƒôä index.html
+Γöé   Γöé   Γö£ΓöÇΓöÇ ≡ƒôä main.js
+Γöé   Γöé   ΓööΓöÇΓöÇ ≡ƒôä style.css
+Γöé   Γö£ΓöÇΓöÇ ≡ƒôä login.html
+Γöé   Γö£ΓöÇΓöÇ ≡ƒôä script.js
+Γöé   ΓööΓöÇΓöÇ ≡ƒôä server.js
+Γö£ΓöÇΓöÇ ≡ƒôä spk-nodejs.postman_collection.json
+Γö£ΓöÇΓöÇ ≡ƒôü src
+Γöé   Γö£ΓöÇΓöÇ ≡ƒôä app.js
+Γöé   Γö£ΓöÇΓöÇ ≡ƒôü config
+Γöé   Γöé   ΓööΓöÇΓöÇ ≡ƒôä db.js
+Γöé   Γö£ΓöÇΓöÇ ≡ƒôü controllers
+Γöé   Γöé   Γö£ΓöÇΓöÇ ≡ƒôä authController.js
+Γöé   Γöé   ΓööΓöÇΓöÇ ≡ƒôä spkControllers.js
+Γöé   Γö£ΓöÇΓöÇ ≡ƒôü middleware
+Γöé   Γöé   ΓööΓöÇΓöÇ ≡ƒôä authMiddleware.js
+Γöé   Γö£ΓöÇΓöÇ ≡ƒôü models
+Γöé   Γöé   ΓööΓöÇΓöÇ ≡ƒôä userModel.js
+Γöé   Γö£ΓöÇΓöÇ ≡ƒôü public
+Γöé   Γöé   ΓööΓöÇΓöÇ ≡ƒôü js
+Γöé   Γöé       ΓööΓöÇΓöÇ ≡ƒôä sessionCheck.js
+Γöé   Γö£ΓöÇΓöÇ ≡ƒôü routes
+Γöé   Γöé   Γö£ΓöÇΓöÇ ≡ƒôä authRoutes.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ ≡ƒôä kriteriaRoutes.js
+Γöé   Γöé   ΓööΓöÇΓöÇ ≡ƒôä spkRoutes.js
+Γöé   ΓööΓöÇΓöÇ ≡ƒôü utils
+Γöé       Γö£ΓöÇΓöÇ ≡ƒôä seedRunner.js
+Γöé       ΓööΓöÇΓöÇ ≡ƒôä WeightedProducts.js
+Γö£ΓöÇΓöÇ ≡ƒôä struktur.txt
+ΓööΓöÇΓöÇ ≡ƒôä tree-clean.js
