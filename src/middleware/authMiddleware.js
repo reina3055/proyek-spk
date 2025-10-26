@@ -17,9 +17,9 @@ export function verifyToken(req, res, next) {
     }
     req.user = user; // simpan info user ke request
     next();
-  });
-  console.log("Authorization Header:", req.headers["authorization"]);
-console.log("SECRET_KEY in middleware:", SECRET_KEY);
+});
+   console.log("Authorization Header:", req.headers["authorization"]);
+ console.log("SECRET_KEY in middleware:", SECRET_KEY);
 
 }
 

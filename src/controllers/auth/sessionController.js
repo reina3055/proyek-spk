@@ -10,7 +10,7 @@ export async function checkSession(req, res) {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token)
-    return res.status(401).json({ loggedIn: false, message: "Token tidak ada" });
+    return res.status(200).json({ loggedIn: false, message: "Token tidak ada" });
 
   try {
     // ✅ Gunakan secret dari environment

@@ -128,6 +128,7 @@
         if (response.ok) {
           const data = await response.json();
           localStorage.setItem("token", data.token); //simpan token
+          //await new Promise(resolve => setTimeout(resolve, 200)); // pastikan token tersimpan
           window.location.href = '/dashboard/index.html';
         } else {
           const data = await response.json();
