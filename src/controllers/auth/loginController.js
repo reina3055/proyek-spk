@@ -1,10 +1,7 @@
 import { pool } from "../../config/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { findUserByUsername } from "../../models/userModel.js";
-
 import { SECRET_KEY } from "../../config/secret.js";
-
 
 // === LOGIN ===
 export async function login(req, res) {
@@ -22,10 +19,12 @@ export async function login(req, res) {
   if (!passwordMatch)
     return res.status(401).json({ message: "Password salah!" });
 
-  // ✅ Ambil secret dari environment
+  // ✅ Gunakan SECRET_KEY dari config
+  console.log("SECRET_KEY dari loginController:", SECRET_KEY);
+
   const token = jwt.sign(
     { id: user.id, username: user.username },
-    process.env.SECRET_KEY,
+    SECRET_KEY,
     { expiresIn: "1h" }
   );
 
