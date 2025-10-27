@@ -1,5 +1,6 @@
-import express from "express";
 import dotenv from "dotenv";
+
+import express from "express";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -12,7 +13,7 @@ import { pool } from "./config/db.js";
 //  import spkRoutes from "./routes/spk/index.js"; // ← aggregator spk routes
   import allRoutes from "./routes/index.js";
 
-dotenv.config();
+
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +40,7 @@ app.get("/", (req, res) => {
   res.redirect("/login.html");
 });
 
+dotenv.config();
 // DB connection test
 (async () => {
   try {

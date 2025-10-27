@@ -32,12 +32,12 @@
   <div class="absolute -top-20 -left-20 w-64 h-64 sm:w-96 sm:h-96 bg-plum opacity-20 rounded-full filter blur-3xl"></div>
   <div class="absolute -bottom-20 -right-20 w-64 h-64 sm:w-96 sm:h-96 bg-violet-light opacity-30 rounded-full filter blur-3xl"></div>
 
-  <!-- Login Card -->
+  <!-- Login Card SPK Weighted Product Hipertensi -->
   <main class="relative z-10 w-full max-w-md">
     <div class="bg-white/60 backdrop-blur-lg shadow-2xl rounded-2xl p-8 sm:p-12">
       
       <h1 class="text-3xl font-bold text-center text-plum mb-8">
-        SPK Weighted Product Hipertensi
+        SPK
       </h1>
 
       <form id="loginForm" class="space-y-6">
@@ -127,6 +127,8 @@
 
         if (response.ok) {
           const data = await response.json();
+          //cek token apakah diterima?
+          console.log("Token diterima dari server ~Nyannn😸", data.token)
           localStorage.setItem("token", data.token); //simpan token
           //await new Promise(resolve => setTimeout(resolve, 200)); // pastikan token tersimpan
           window.location.href = '/dashboard/index.html';
