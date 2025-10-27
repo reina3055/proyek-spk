@@ -130,6 +130,7 @@
           //cek token apakah diterima?
           console.log("Token diterima dari server ~Nyannn😸", data.token)
           localStorage.setItem("token", data.token); //simpan token
+          //await new Promise(resolve => setTimeout(resolve, 200)); // pastikan token tersimpan
           window.location.href = '/dashboard/index.html';
         } else {
           const data = await response.json();
