@@ -1,35 +1,44 @@
+// ============================================================
+// auth.js
+// 🔹 Load profil admin & helper logout
+// ============================================================
 import { authFetch } from "./utils.js";
 
-// ============================================================
-// 🔹 Load Profil Admin & Session Check
-// ============================================================
 export async function loadProfilAdmin() {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    window.location.href = "/login.html";
-    return;
-  }
-
   try {
-    const res = await fetch("/api/auth/session", {
-      headers: { Authorization: `Bearer ${token}` },
+    const token = localStorage.getItem("token");
+    const res = await authFetch("/api/auth/session", {
+      headers: { Authorization: token ? `Bearer ${token}` : "" },
     });
 
-    const data = await res.json();
-    if (!data.loggedIn) {
+    // Jika server merespon non-ok, redirect ke login
+    if (!res.ok) {
+      console.warn("Session check gagal:", res.status);
       localStorage.removeItem("token");
       window.location.href = "/login.html";
       return;
     }
 
-    const user = data.user;
-    document.getElementById("nama-admin").textContent = user.username;
-    document.getElementById("email-admin").textContent = `${user.username}@spk.com`;
-    document.getElementById("user-id").value = user.id;
-    document.getElementById("foto-admin").src =
-      user.foto || "/assets/default-avatar.png";
+    const data = await res.json();
+    if (data.loggedIn) {
+      document.getElementById("nama-admin").textContent = data.user.username || "Admin";
+      document.getElementById("email-admin").textContent = `${data.user.username || "admin"}@spk.com`;
+      const inputId = document.getElementById("user-id");
+      if (inputId) inputId.value = data.user.id || "";
+
+      const img = document.getElementById("foto-admin");
+      if (img) {
+        img.src = data.user.foto ? data.user.foto : "https://via.placeholder.com/100/A78BFA/FFFFFF?text=A";
+      }
+    } else {
+      localStorage.removeItem("token");
+      window.location.href = "/login.html";
+    }
   } catch (err) {
-    console.error("❌ Gagal memuat profil admin:", err);
+    console.error("Gagal memuat profil admin:", err);
+    // fallback: redirect ke login
+    localStorage.removeItem("token");
+    window.location.href = "/login.html";
   }
 }
 
@@ -37,6 +46,52 @@ export function logout() {
   localStorage.removeItem("token");
   window.location.href = "/login.html";
 }
+
+// backward compatibility (jika ada kode lama yang pakai window)
+window.loadProfilAdmin = window.loadProfilAdmin || loadProfilAdmin;
+window.logout = window.logout || logout;
+
+
+
+// import { authFetch } from "./utils.js";
+
+// // ============================================================
+// // 🔹 Load Profil Admin & Session Check
+// // ============================================================
+// export async function loadProfilAdmin() {
+//   const token = localStorage.getItem("token");
+//   if (!token) {
+//     window.location.href = "/login.html"; 
+//     return;
+//   }
+
+//   try {
+//     const res = await fetch("/api/auth/session", {
+//       headers: { Authorization: `Bearer ${token}` },
+//     });
+
+//     const data = await res.json();
+//     if (!data.loggedIn) {
+//       localStorage.removeItem("token");
+//       window.location.href = "/login.html";
+//       return;
+//     }
+
+//     const user = data.user;
+//     document.getElementById("nama-admin").textContent = user.username;
+//     document.getElementById("email-admin").textContent = `${user.username}@spk.com`;
+//     document.getElementById("user-id").value = user.id;
+//     document.getElementById("foto-admin").src =
+//       user.foto || "/assets/default-avatar.png";
+//   } catch (err) {
+//     console.error("❌ Gagal memuat profil admin:", err);
+//   }
+// }
+
+// export function logout() {
+//   localStorage.removeItem("token");
+//   window.location.href = "/login.html";
+// }
 
 
 //  async function loadProfilAdmin() {
