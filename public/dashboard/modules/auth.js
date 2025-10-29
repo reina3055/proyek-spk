@@ -53,13 +53,15 @@ window.logout = window.logout || logout;
 
 
 
+// import { authFetch } from "./utils.js";
+
 // // ============================================================
 // // 🔹 Load Profil Admin & Session Check
 // // ============================================================
 // export async function loadProfilAdmin() {
 //   const token = localStorage.getItem("token");
 //   if (!token) {
-//     window.location.href = "/login.html";
+//     window.location.href = "/login.html"; 
 //     return;
 //   }
 

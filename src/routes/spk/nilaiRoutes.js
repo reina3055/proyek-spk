@@ -1,8 +1,6 @@
 import express from "express";
-//import { bulkUpdateNilai } from "../../controllers/spk/nilaiController.js";
-//ganti dengan
 import { getAllNilai } from "../../controllers/spk/nilaiController.js";
-import { bulkUpdateNilai } from "../../controllers/index.js";
+import { bulkUpdateNilai } from "../../controllers/spk/nilaiController.js";
 const router = express.Router();
 
 router.get("/", getAllNilai); // kalau sudah ada

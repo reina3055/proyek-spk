@@ -31,10 +31,6 @@ export const bulkUpdateNilai = async (req, res) => {
   }
 };
 
-
-// ============================
-// 🔹 INPUT Nilai
-// ============================
 // export async function tambahNilai(req, res) {
 //   const { id_alternatif, id_kriteria, nilai } = req.body;
 //   try {
