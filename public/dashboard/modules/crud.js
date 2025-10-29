@@ -67,10 +67,16 @@ export async function loadKriteria() {
   try {
     const res = await authFetch("/api/spk/kriteria");
     const data = await res.json();
+    data.sort((a, b) => a.id_kriteria - b.id_kriteria);
+    console.log("Data kriteria (urut):", data.map((k) => k.id_kriteria));
+    // data.forEach((k, i) => {
+    //   console.log(`No.${i + 1} =>`, k.nama_kriteria);
+    // });
     tbody.innerHTML = data
       .map(
-        (k) => `
+        (k, i) => `
         <tr>
+          <td class="px-4 py-2">${i + 1}</td>
           <td class="px-4 py-2">C${k.id_kriteria}</td>
           <td class="px-4 py-2">${k.nama_kriteria}</td>
           <td class="px-4 py-2">${k.bobot}</td>
@@ -137,9 +143,11 @@ export async function loadAlternatif() {
     const res = await authFetch("/api/spk/alternatif");
     const data = await res.json();
     tbody.innerHTML = data
+    .sort((a, b) => a.id_alternatif - b.id_alternatif)
       .map(
-        (a) => `
+        (a, i) => `
         <tr>
+          <td class="px-4 py-2">${i + 1}</td>
           <td class="px-4 py-2">A${a.id_alternatif}</td>
           <td class="px-4 py-2">${a.nama_obat}</td>
           <td class="px-4 py-2 text-right space-x-2">

@@ -4,7 +4,13 @@ import { SECRET_KEY } from "../config/secret.js";
 // === Middleware JWT untuk verifikasi token ===
 export function verifyToken(req, res, next) {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // Format: Bearer <token>
+  //const token = authHeader && authHeader.split(" ")[1]; // Format: Bearer <token>
+  //ganti dengan ini
+  const token =
+  req.headers.authorization?.split(" ")[1] ||
+  req.query.token ||
+  req.body.token;
+
 
   if (!token) {
     console.warn("🚫 Token tidak ditemukan di header Authorization.");
