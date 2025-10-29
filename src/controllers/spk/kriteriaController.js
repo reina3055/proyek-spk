@@ -18,13 +18,13 @@ export async function getKriteria(req, res) {
 // 🔹 TAMBAH Kriteria
 // ============================
 export async function tambahKriteria(req, res) {
-  const { nama, bobot, tipe } = req.body;
+  const { nama_kriteria, bobot, tipe } = req.body;
   console.log("tambahKriteria body:", req.body);
 
   try {
     const [result] = await pool.query(
       "INSERT INTO kriteria (nama_kriteria, bobot, tipe) VALUES (?, ?, ?)",
-      [nama, bobot, tipe]
+      [nama_kriteria, bobot, tipe]
     );
     res.json({ message: "✅ Kriteria berhasil ditambahkan", id: result.insertId });
   } catch (err) {
@@ -42,7 +42,7 @@ export async function updateKriteria(req, res) {
   try {
     await pool.query(
       "UPDATE kriteria SET nama_kriteria=?, bobot=?, tipe=? WHERE id_kriteria=?",
-      [nama, bobot, tipe, id]
+      [nama_kriteria, bobot, tipe, id]
     );
     res.json({ message: "✅ Kriteria berhasil diperbarui" });
   } catch (err) {
