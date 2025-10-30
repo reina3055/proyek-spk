@@ -284,3 +284,30 @@ footer {
         width: 100%;
     }
 }
+
+/* --- Halaman: tentang.html --- */
+.content-box {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    font-size: 1.1rem;
+}
+
+.content-box h3 {
+    color: var(--primary-color);
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--light-bg);
+    padding-bottom: 5px;
+}
+
+.content-box ul {
+    list-style-position: inside;
+    padding-left: 10px;
+}
+
+.content-box li {
+    margin-bottom: 8px;
+    color: #555;
+}
