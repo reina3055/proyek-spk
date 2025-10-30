@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitung WP - SPK Weighted Product</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <h1 class="nav-brand">SPK Weighted Product</h1>
+            <nav>
+                <a href="./index.html" class="nav-link">Beranda</a>
+                <a href="./hitung.html" class="nav-link active">Hitung</a>
+                <a href="./laporan.html" class="nav-link">Laporan</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2 class="page-title">Perhitungan Weighted Product</h2>
+        <p>Klik tombol di bawah untuk memulai proses perhitungan SPK menggunakan data yang tersedia di sistem.</p>
+
+        <div class="controls">
+            <button id="btn-hitung-wp" class="btn btn-primary">Mulai Hitung WP</button>
+        </div>
+
+        <div id="loading-indicator" class="loading-text" style="display: none;">
+            🔄 Memproses perhitungan...
+        </div>
+        <div id="error-message" class="error-text" style="display: none;">
+            ❌ Terjadi kesalahan saat mengambil data.
+        </div>
+
+        <section id="hasil-wp" class="result-container" style="display: none;">
+            <h3>Hasil Perhitungan</h3>
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>Alternatif</th>
+                        <th>Nilai Preferensi (V)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+
+            <p class="saran-terbaik">
+                💡 Saran Terbaik: <strong id="saran-terbaik-value">...</strong>
+            </p>
+
+            <div class="action-buttons">
+                <button id="btn-simpan-laporan" class="btn btn-secondary">
+                    Simpan ke Laporan
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Dikembangkan dengan penuh cinta — Sistem SPK Weighted Product ©2025</p>
+    </footer>
+
+    <script type="module" src="./assets/js/hitung.js"></script>
+</body>
+</html>

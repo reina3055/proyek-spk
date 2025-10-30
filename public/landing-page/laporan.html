@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan - SPK Weighted Product</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <h1 class="nav-brand">SPK Weighted Product</h1>
+            <nav>
+                <a href="./index.html" class="nav-link">Beranda</a>
+                <a href="./hitung.html" class="nav-link">Hitung</a>
+                <a href="./laporan.html" class="nav-link active">Laporan</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2 class="page-title">Laporan & Hasil SPK Weighted Product</h2>
+        <p>Data hasil perhitungan Weighted Product yang telah tersimpan di database.</p>
+        
+        <div class="filter-controls">
+            <label for="filter-tanggal">Filter Berdasarkan Tanggal:</label>
+            <input type="date" id="filter-tanggal">
+            <button id="btn-filter" class="btn btn-secondary">Filter</button>
+        </div>
+
+        <div class="btn-group">
+            <button id="btn-pdf" class="btn btn-secondary">Unduh PDF</button>
+            <button id="btn-excel" class="btn btn-success">Unduh Excel</button>
+        </div>
+
+        <div id="laporan-table">
+            <p class_="loading-text">Memuat data laporan...</p>
+        </div>
+
+        <p id="saran-terbaik" class="saran-terbaik"></p>
+
+    </main>
+
+    <footer>
+        <p>Dikembangkan dengan penuh cinta — Sistem SPK Weighted Product ©2025</p>
+    </footer>
+
+    <script type="module" src="./assets/js/laporan.js"></script>
+</body>
+</html>
