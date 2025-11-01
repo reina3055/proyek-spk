@@ -2,6 +2,23 @@ import { pool } from "../../config/db.js";
 import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "../../config/secret.js";
 
+
+
+export async function verifyTokenController(req, res) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Token tidak ditemukan" });
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    return res.json({ valid: true, user: decoded });
+  } catch (err) {
+    console.error("Token invalid:", err.message);
+    return res.status(403).json({ valid: false });
+  }
+}
+
+
 // === CHECK TOKEN / SESSION ===
 export async function checkSession(req, res) {
   const authHeader = req.headers["authorization"];

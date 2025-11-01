@@ -2,9 +2,44 @@
 import { loadProfilAdmin, logout } from "./modules/auth.js"; // pastikan export ada di auth.js
 import "./modules/crud.js";   // Menempelkan fungsi global seperti openModal, loadKriteria, dsb
 import "./modules/laporan.js"; // Menempelkan loadHasilWP dan renderLaporan
+import "./assets/dashboard.js";
 import { authFetch } from "./modules/utils.js";
 
 console.log("main.js loaded");
+
+(async () => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
+  if (!token) {
+    window.location.href = "/dashboard/login.html";
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/auth/verify-token", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.valid) throw new Error("Token invalid");
+
+    // role check
+    if (role !== "admin" && role !== "super-admin") {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      window.location.href = "/dashboard/login.html";
+    }
+
+    console.log(`✅ ${role} terverifikasi, lanjut ke dashboard`);
+  } catch (err) {
+    console.error("Session invalid:", err);
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    window.location.href = "/dashboard/login.html";
+  }
+})();
+
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOMContentLoaded fired — setting up nav listeners");
@@ -15,6 +50,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   const navLinks = document.querySelectorAll(".nav-link");
   const pageContents = document.querySelectorAll(".page-content");
   const pageTitle = document.getElementById("page-title");
+  // dropdown profil
+  const profileBtn = document.getElementById("profile-btn");
+  const dropdown = document.getElementById("profile-dropdown");
+
+  if (profileBtn && dropdown) {
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle("hidden");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!profileBtn.contains(e.target)) dropdown.classList.add("hidden");
+  });
+}
+
 
   function showPage(pageId, linkEl) {
     pageContents.forEach((p) => p.classList.add("hidden"));
@@ -26,10 +76,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (linkEl) pageTitle.textContent = linkEl.textContent.trim();
 
     // load page data
+    if (pageId === "beranda") window.renderDashboard?.();
     if (pageId === "kriteria") window.loadKriteria?.();
     if (pageId === "alternatif") window.loadAlternatif?.();
     if (pageId === "nilai") window.renderInputNilai?.();
     if (pageId === "hasil") window.loadHasilWP?.();
+    if (pageId === "stok") window.loadStok?.();
+    if (pageId === "pengguna") window.loadPengguna?.();
     if (pageId === "laporan") window.renderLaporan?.();
   }
 
@@ -44,7 +97,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // default page (profil)
   const active = document.querySelector(".nav-link.bg-purple-700") || navLinks[0];
-  const defaultPage = active?.getAttribute("data-page") || "profil";
+  const defaultPage = active?.getAttribute("data-page") || "beranda";
   showPage(defaultPage, active);
 
   // load profile (cek session)

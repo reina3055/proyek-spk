@@ -6,6 +6,10 @@ export function verifyToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   //const token = authHeader && authHeader.split(" ")[1]; // Format: Bearer <token>
   //ganti dengan ini
+ if (!authHeader) {
+    return res.status(401).json({ message: "Token tidak ditemukan di header Authorization." });
+  }
+
   const token =
   req.headers.authorization?.split(" ")[1] ||
   req.query.token ||
@@ -26,3 +30,12 @@ export function verifyToken(req, res, next) {
     return res.status(403).json({ message: "Token tidak valid!" });
   }
 }
+export function authorizeRole(allowedRoles = []) {
+  return (req, res, next) => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ message: "Akses ditolak" });
+    }
+    next();
+  };
+}
+
