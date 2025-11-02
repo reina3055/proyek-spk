@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          plum: '#8E4585',
+          'violet-light': '#D8BFD8',
+        },
+        fontFamily: { poppins: ['Poppins', 'sans-serif'] },
+      },
+    },
+  };
+</script>
+</head>
+
+<body class="font-poppins min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-violet-light via-white to-white relative overflow-hidden">
+  <main class="relative z-10 w-full max-w-md">
+    <div class="bg-white/70 backdrop-blur-lg shadow-2xl rounded-2xl p-8 sm:p-12">
+      <h1 class="text-3xl font-bold text-center text-plum mb-8">Buat Akun Dashboard</h1>
+
+      <form id="registerForm" class="space-y-6">
+        <input id="nama" type="text" placeholder="Nama Lengkap" required class="w-full px-4 py-3 border rounded-lg">
+        <input id="email" type="email" placeholder="Email" required class="w-full px-4 py-3 border rounded-lg">
+        <input id="password" type="password" placeholder="Password" required class="w-full px-4 py-3 border rounded-lg">
+
+        <select id="role" required class="w-full px-3 py-2 border rounded-lg">
+          <option value="">Pilih Role</option>
+          <option value="admin">Admin</option>
+          <option value="super-admin">Super Admin</option>
+        </select>
+
+        <p id="errorMessage" class="text-sm text-red-600 text-center opacity-0"></p>
+        <p id="successMessage" class="text-sm text-green-600 text-center opacity-0"></p>
+
+        <button id="registerBtn" type="submit"
+          class="w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-plum to-[#a76fb2] hover:scale-[1.02] transition flex items-center justify-center gap-2">
+          <span id="registerText">Daftar</span>
+          <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4z"></path>
+          </svg>
+        </button>
+
+        <p class="text-center text-sm mt-4">
+          Sudah punya akun?
+          <a href="./login.html" class="text-plum font-semibold hover:underline">Login di sini</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <script type="module" src="./auth/register.js"></script>
+</body>
+</html>

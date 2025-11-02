@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beranda - SPK Weighted Product</title>
-    <link rel="stylesheet" href="../landing-page/css/style.css">
+    <link rel="stylesheet" href="../landing/css/style.css">
 </head>
 <body>
 
@@ -16,6 +16,8 @@
                 <a href="./hitung.html" class="nav-link">Hitung</a>
                 <a href="./laporan.html" class="nav-link">Laporan</a>
                 <a href="./tentang.html" class="nav-link">Tentang</a>
+                <a id="login-btn" href="./login.html" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">Login</a>
+
             </nav>
         </div>
     </header>
@@ -42,6 +44,39 @@
         <p>Dikembangkan dengan penuh cinta — Sistem SPK Weighted Product ©2025</p>
     </footer>
 
-    <script type="module" src="./assets/js/main.js"></script>
+    <script type="module" src="./js/main.js"></script>
+    <script>
+  // 🔹 cek status login dari localStorage
+  const token = localStorage.getItem('token');
+  const loginBtn = document.getElementById('login-btn');
+
+  if (token && loginBtn) {
+    // ubah tombol jadi Logout
+    loginBtn.textContent = 'Logout';
+    loginBtn.classList.remove('bg-purple-600');
+    loginBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+    if (token) {
+  const currentPath = window.location.pathname;
+  if (currentPath.endsWith('login.html') || currentPath.endsWith('register.html')) {
+    window.location.href = '/landing/index.html#simulasi';
+  }
+}
+
+
+    // ubah perilaku klik jadi logout
+    loginBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      loginBtn.textContent = 'Login';
+      loginBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+      loginBtn.classList.add('bg-purple-600', 'hover:bg-purple-700');
+
+      // refresh halaman biar bersih
+      location.reload();
+    });
+  }
+</script>
+
 </body>
 </html>

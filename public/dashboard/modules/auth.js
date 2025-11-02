@@ -21,15 +21,23 @@ export async function loadProfilAdmin() {
 
     const data = await res.json();
     if (data.loggedIn) {
-      document.getElementById("nama-admin").textContent = data.user.username || "Admin";
-      document.getElementById("email-admin").textContent = `${data.user.username || "admin"}@spk.com`;
-      const inputId = document.getElementById("user-id");
-      if (inputId) inputId.value = data.user.id || "";
+      // update header baru
+  const nameEl = document.getElementById("admin-name");
+  const emailEl = document.getElementById("admin-email");
 
-      const img = document.getElementById("foto-admin");
-      if (img) {
-        img.src = data.user.foto ? data.user.foto : "https://via.placeholder.com/100/A78BFA/FFFFFF?text=A";
-      }
+  if (nameEl) nameEl.textContent = data.user.username || "Admin";
+  if (emailEl) emailEl.textContent = data.user.email || `${data.user.username}@spk.com`;
+
+  // tetap simpan user id (jika perlu di form lain)
+  const idEl = document.getElementById("user-id");
+  if (idEl) idEl.value = data.user.id || "";
+
+      const img = document.getElementById("admin-avatar");
+if (img && !data.user.foto) {
+  const initial = (data.user.username?.[0] || "A").toUpperCase();
+  img.src = `https://via.placeholder.com/40/A78BFA/FFFFFF?text=${initial}`;
+}
+
     } else {
       localStorage.removeItem("token");
       window.location.href = "/login.html";

@@ -1,83 +1,28 @@
-/* Font kustom (opsional, Tailwind default sudah bagus) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* style.css */
+
+/* Mengatur font default jika Poppins/Inter tersedia, fallback ke sans-serif */
 body {
-    font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-/* Navigasi Aktif */
-.nav-link.active {
-    background-color: #7e22ce; /* purple-700 */
-    color: white;
-    font-weight: 600;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-.nav-link.active svg {
-    color: white;
-}
-
-/* Transisi Halaman Halus */
+/* Animasi transisi halaman yang halus (sesuai prompt "transisi halus") */
 .page-content {
-    animation: fadeIn 0.4s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
 }
+
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
-/* Glassmorphism (Bonus) */
-.glassmorphism {
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Scrollbar Kustom (Elegan) */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #f1f5f9; /* gray-100 */
-}
-::-webkit-scrollbar-thumb {
-    background: #a855f7; /* purple-500 */
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #9333ea; /* purple-600 */
-}
-
-/* Gaya Cetak (Print-Ready) */
-@media print {
-    body * {
-        visibility: hidden;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
-    #print-area, #print-area * {
-        visibility: visible;
-    }
-    #print-area {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-    }
-    /* Sembunyikan tombol cetak saat mencetak */
-    .no-print {
-        display: none !important;
-    }
-    /* Atur halaman A4 */
-    @page {
-        size: A4;
-        margin: 2cm;
-    }
+/* Memastikan canvas responsif di dalam containernya */
+canvas {
+  max-width: 100%;
+  height: auto !important; /* Override inline height untuk responsivitas jika perlu, tapi biarkan Chart.js mengelola rasio */
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Dashboard - SPK WP Hipertensi</title>
+  <title>Login - SPK WP Hipertensi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <script>
@@ -19,39 +19,33 @@
 </head>
 
 <body class="font-poppins min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-violet-light via-white to-white relative overflow-hidden">
+
+  <!-- Background Bokeh -->
   <div class="absolute -top-20 -left-20 w-64 h-64 sm:w-96 sm:h-96 bg-plum opacity-20 rounded-full filter blur-3xl"></div>
   <div class="absolute -bottom-20 -right-20 w-64 h-64 sm:w-96 sm:h-96 bg-violet-light opacity-30 rounded-full filter blur-3xl"></div>
 
+  <!-- Login Card -->
   <main class="relative z-10 w-full max-w-md">
-    <div class="bg-white/70 backdrop-blur-lg shadow-2xl rounded-2xl p-8 sm:p-12">
-      <h1 class="text-3xl font-bold text-center text-plum mb-8">Login Dashboard</h1>
+    <div class="bg-white/60 backdrop-blur-lg shadow-2xl rounded-2xl p-8 sm:p-12">
+      <h1 class="text-3xl font-bold text-center text-plum mb-8">Login Akun</h1>
 
       <form id="loginForm" class="space-y-6">
         <div>
           <label for="email" class="block text-sm font-semibold text-plum mb-2">Email</label>
-          <input type="email" id="email" placeholder="Masukkan email admin" required
-            class="w-full px-4 py-3 border border-violet-light rounded-lg shadow-sm focus:ring-2 focus:ring-plum">
+          <input type="email" id="email" placeholder="Masukkan email Anda" required
+            class="w-full px-4 py-3 bg-white/80 border border-violet-light rounded-lg shadow-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-plum focus:border-transparent transition duration-300">
         </div>
 
         <div>
           <label for="password" class="block text-sm font-semibold text-plum mb-2">Password</label>
           <input type="password" id="password" placeholder="••••••••" required
-            class="w-full px-4 py-3 border border-violet-light rounded-lg shadow-sm focus:ring-2 focus:ring-plum">
+            class="w-full px-4 py-3 bg-white/80 border border-violet-light rounded-lg shadow-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-plum focus:border-transparent transition duration-300">
         </div>
 
-        <div>
-          <label for="role" class="block text-sm font-semibold text-plum mb-2">Login sebagai</label>
-          <select id="role" required class="w-full px-3 py-2 border border-violet-light rounded-lg">
-            <option value="">Pilih Role</option>
-            <option value="admin">Admin</option>
-            <option value="super-admin">Super Admin</option>
-          </select>
-        </div>
-
-        <p id="errorMessage" class="text-sm text-red-600 text-center opacity-0 h-4"></p>
+        <p id="errorMessage" class="text-sm text-red-600 text-center opacity-0 transition-opacity duration-300 h-4"></p>
 
         <button id="loginBtn" type="submit"
-          class="relative w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-plum to-[#a76fb2] hover:scale-[1.02] transition flex items-center justify-center gap-2">
+          class="relative w-full py-3 px-6 text-white font-semibold rounded-lg bg-gradient-to-r from-plum to-[#a76fb2] shadow-lg hover:shadow-xl hover:scale-[1.02] transform transition duration-300 focus:outline-none focus:ring-2 focus:ring-plum focus:ring-offset-2 flex items-center justify-center gap-2">
           <span id="loginText">Login</span>
           <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -71,6 +65,6 @@
     © 2025 SPK WP Hipertensi. Semua hak dilindungi.
   </footer>
 
-  <script type="module" src="./auth/login.js"></script>
+  <script type="module" src="./login.js"></script>
 </body>
 </html>

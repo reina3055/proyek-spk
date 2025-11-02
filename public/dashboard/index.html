@@ -3,89 +3,172 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SPK WP Hipertensi - Admin Dashboard</title>
+  <title>SPK WP Hipertensi - Dashboard Admin</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="module" src="./main.js"></script>
-  <!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 </head>
-<body class="bg-gray-100 font-sans text-gray-800">
-  <div class="flex h-screen">
 
-    <!-- Sidebar -->
+<body class="bg-gray-100 font-sans text-gray-800">
+  <!-- 🔸 Preloader -->
+  <div id="preloader" class="fixed inset-0 flex items-center justify-center bg-white z-50">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-purple-600 border-solid"></div>
+  </div>
+
+  <div class="flex h-screen">
+    <!-- 🔹 Sidebar -->
     <aside id="sidebar" class="w-64 bg-purple-800 text-white flex flex-col">
       <div class="p-5 border-b border-purple-700">
         <h2 class="text-xl font-bold leading-tight">SPK WP Hipertensi</h2>
         <p class="text-xs opacity-80">Admin Dashboard</p>
       </div>
-
       <nav class="flex-1 p-4 space-y-2">
-        <a href="#" data-page="profil" class="nav-link block px-3 py-2 rounded-md bg-purple-700 font-medium">Profil Admin</a>
-        <a href="#" data-page="kriteria" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">Kriteria</a>
-        <a href="#" data-page="alternatif" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">Alternatif (Obat)</a>
-        <a href="#" data-page="nilai" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">Input Nilai</a>
-        <a href="#" data-page="hasil" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">Hasil Perhitungan</a>
-        <a href="#" data-page="laporan" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">Laporan</a>
+        <a href="#" data-page="beranda" class="nav-link block px-3 py-2 rounded-md bg-purple-700 font-medium">
+          <i class="fa-solid fa-house fa-fw mr-3"></i>Beranda
+        </a>
+        <!-- <a href="#" data-page="profil" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+          <i class="fa-solid fa-user fa-fw mr-3"></i>Profil Admin
+        </a> -->
+        <a href="#" data-page="kriteria" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+          <i class="fa-solid fa-list-check fa-fw mr-3"></i>Kriteria
+        </a>
+        <a href="#" data-page="alternatif" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+          <i class="fa-solid fa-pills fa-fw mr-3"></i>Alternatif (Obat)
+        </a>
+        <a href="#" data-page="nilai" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+          <i class="fa-solid fa-pen-to-square fa-fw mr-3"></i>Input Nilai
+        </a>
+        <a href="#" data-page="hasil" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+          <i class="fa-solid fa-calculator fa-fw mr-3"></i>Hasil Perhitungan
+        </a>
+        <a href="#" data-page="stok" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+          <i class="fa-solid fa-boxes-stacked fa-fw mr-3"></i>Stok Obat
+        </a>
+        <a href="#" data-page="pengguna" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+          <i class="fa-solid fa-users-gear fa-fw mr-3"></i>Kelola Pengguna
+        </a>
+        <a href="#" data-page="laporan" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+          <i class="fa-solid fa-file-lines fa-fw mr-3"></i>Laporan
+        </a>
       </nav>
 
       <div class="p-4 border-t border-purple-700">
-        <a href="/login.html" class="block text-center bg-purple-700 py-2 rounded-md font-medium hover:bg-purple-600 transition">
-          Logout
-        </a>
+        <button id="logout-btn" class="w-full text-center bg-red-700 py-2 rounded-md font-medium hover:bg-red-600 transition">
+          <i class="fa-solid fa-right-from-bracket fa-fw mr-2"></i>Logout
+        </button>
       </div>
     </aside>
 
-    <!-- Konten Utama -->
+    <!-- 🔹 Main content -->
     <main class="flex-1 p-8 overflow-y-auto">
-      <header class="mb-8">
-        <h1 id="page-title" class="text-2xl font-bold text-purple-700 mb-2">Profil Admin</h1>
-        <hr class="border-purple-300">
-      </header>
+     <header class="mb-8 flex justify-between items-center relative">
+  <div>
+    <h1 id="page-title" class="text-2xl font-bold text-purple-700">
+      Dashboard SPK Weighted Product Hipertensi
+    </h1>
+    <p class="text-sm text-gray-500">Sistem Pendukung Keputusan Metode Weighted Product</p>
+  </div>
 
-      <!-- Profil -->
-      <section id="page-profil" class="page-content">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <section class="bg-white p-6 rounded-xl shadow text-center">
-  <form id="form-foto" enctype="multipart/form-data">
-    <div id="profil-foto" class="relative inline-block">
-      <img id="foto-admin" src="https://via.placeholder.com/100/A78BFA/FFFFFF?text=A"
-           alt="Foto Admin" class="w-24 h-24 rounded-full border-4 border-purple-300 object-cover mx-auto">
-      <label for="upload-foto"
-             class="absolute bottom-0 right-0 bg-purple-600 text-white px-2 py-1 text-xs rounded cursor-pointer hover:bg-purple-700">Ganti</label>
-      <input type="file" id="upload-foto" name="foto" class="hidden" accept="image/*">
+  <!-- Profil Admin Dropdown -->
+  <div class="relative">
+    <button id="profile-btn" class="flex items-center space-x-3 focus:outline-none">
+      <div class="text-right hidden sm:block">
+        <p id="admin-name" class="font-semibold text-gray-800">Admin</p>
+        <p id="admin-email" class="text-sm text-gray-500">admin@spk.com</p>
+      </div>
+      <img id="admin-avatar"
+        src="https://via.placeholder.com/40/A78BFA/FFFFFF?text=A"
+        class="w-10 h-10 rounded-full border-2 border-purple-400 object-cover"
+        alt="Admin Avatar" />
+      <i class="fa-solid fa-chevron-down text-gray-500 ml-1"></i>
+    </button>
+
+    <!-- Dropdown -->
+    <div id="profile-dropdown"
+      class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+      <button id="logout-Btn"
+        class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center">
+        <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
+      </button>
     </div>
-    <input type="hidden" id="user-id" name="id">
-  </form>
-  <!-- hasil ini belum terintegrasi dengan database user -->
-  <h2 id="nama-admin" class="text-lg font-semibold mt-3">Admin</h2>
-  <p id="email-admin" class="text-gray-500 text-sm">admin@spk.com</p>
-</section>
+  </div>
+</header>
 
-          <section class="bg-white p-6 rounded-xl shadow">
-            <h3 class="text-lg font-semibold text-purple-700 mb-4">Ubah Password</h3>
-            <form>
-              <div class="mb-3">
-                <label class="block text-sm text-gray-600 mb-1">Password Lama</label>
-                <input type="password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-400 outline-none">
-              </div>
-              <div class="mb-3">
-                <label class="block text-sm text-gray-600 mb-1">Password Baru</label>
-                <input type="password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-400 outline-none">
-              </div>
-              <div class="mb-3">
-                <label class="block text-sm text-gray-600 mb-1">Konfirmasi Password Baru</label>
-                <input type="password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-400 outline-none">
-              </div>
-              <button type="submit" class="mt-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">Perbarui Password</button>
-            </form>
-          </section>
-        </div>
+
+      <!-- 🟣 Beranda -->
+      <section id="page-beranda" class="page-content">
+        <p class="text-gray-600">Selamat datang di dashboard SPK Weighted Product Hipertensi.</p>
+         <div id="dashboard-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div data-target="alternatif"
+          class="cursor-pointer flex items-center p-4 rounded-xl shadow bg-purple-100 text-purple-700 hover:bg-purple-200 transition transform hover:-translate-y-1">
+          <i class="fa-solid fa-pills text-3xl mr-3"></i>
+          <div>
+            <p class="text-sm font-medium">Total Alternatif</p>
+        <p id="card-alternatif" class="text-2xl font-bold">0</p>
+      </div>
+    </div>
+
+    <div data-target="kriteria"
+      class="cursor-pointer flex items-center p-4 rounded-xl shadow bg-blue-100 text-blue-700 hover:bg-blue-200 transition transform hover:-translate-y-1">
+      <i class="fa-solid fa-list-check text-3xl mr-3"></i>
+      <div>
+        <p class="text-sm font-medium">Total Kriteria</p>
+        <p id="card-kriteria" class="text-2xl font-bold">0</p>
+      </div>
+    </div>
+
+    <div data-target="stok"
+      class="cursor-pointer flex items-center p-4 rounded-xl shadow bg-yellow-100 text-yellow-700 hover:bg-yellow-200 transition transform hover:-translate-y-1">
+      <i class="fa-solid fa-boxes-stacked text-3xl mr-3"></i>
+      <div>
+        <p class="text-sm font-medium">Stok Rendah (&lt;10)</p>
+        <p id="card-stok-rendah" class="text-2xl font-bold">0</p>
+      </div>
+    </div>
+
+    <div data-target="pengguna"
+  class="cursor-pointer flex items-center p-4 rounded-xl shadow bg-green-100 text-green-700 hover:bg-green-200 transition transform hover:-translate-y-1">
+  <i class="fa-solid fa-user-gear text-3xl mr-3"></i>
+  <div>
+    <p class="text-sm font-medium">Total Admin</p>
+    <p id="card-admin" class="text-2xl font-bold">0</p>
+  </div>
+</div>
+
+  <div class="bg-white p-6 rounded-xl shadow">
+    <h3 class="text-xl font-semibold text-purple-800 mb-4">Nilai Preferensi Alternatif</h3>
+    <canvas id="chartWpResults" height="100"></canvas>
+  </div>
+         </div>
       </section>
 
-      <!-- Kriteria -->
+      <!-- 🟣 Profil -->
+      <!-- <section id="page-profil" class="page-content hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <section class="bg-white p-6 rounded-xl shadow text-center">
+            <form id="form-foto" enctype="multipart/form-data">
+              <div id="profil-foto" class="relative inline-block">
+                <img id="foto-admin" src="https://via.placeholder.com/100/A78BFA/FFFFFF?text=A"
+                    alt="Foto Admin" class="w-24 h-24 rounded-full border-4 border-purple-300 object-cover mx-auto">
+                <label for="upload-foto"
+                      class="absolute bottom-0 right-0 bg-purple-600 text-white px-2 py-1 text-xs rounded cursor-pointer hover:bg-purple-700">Ganti</label>
+                <input type="file" id="upload-foto" name="foto" class="hidden" accept="image/*">
+              </div>
+              <input type="hidden" id="user-id" name="id">
+            </form>
+            <h2 id="nama-admin" class="text-lg font-semibold mt-3">Admin</h2>
+            <p id="email-admin" class="text-gray-500 text-sm">admin@spk.com</p>
+            <a href="../landing/index.html" target="_blank" class="inline-block mt-3 bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700">
+              🌐 Lihat Halaman Publik
+            </a>
+          </section>
+        </div>
+      </section> -->
+
+      <!-- 🟣 CRUD pages -->
       <section id="page-kriteria" class="page-content hidden">
         <div class="bg-white p-6 rounded-xl shadow-lg">
           <div class="flex justify-between items-center mb-4">
@@ -97,7 +180,6 @@
               <thead class="bg-gray-100">
                 <tr>
                   <th class="px-4 py-3 text-left">No</th>
-                  <th class="px-4 py-3 text-left">ID</th>
                   <th class="px-4 py-3 text-left">Nama</th>
                   <th class="px-4 py-3 text-left">Bobot</th>
                   <th class="px-4 py-3 text-left">Tipe</th>
@@ -110,28 +192,27 @@
         </div>
       </section>
 
-      <!-- Alternatif -->
       <section id="page-alternatif" class="page-content hidden">
         <div class="bg-white p-6 rounded-xl shadow-lg">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-semibold text-purple-800">Data Alternatif (Obat)</h3>
             <button onclick="openModal('alternatif')" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">Tambah Obat</button>
           </div>
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-100">
-              <tr>
-                <th class="px-4 py-3 text-left">No</th>
-                <th class="px-4 py-3 text-left">ID</th>
-                <th class="px-4 py-3 text-left">Nama Obat</th>
-                <th class="px-4 py-3 text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-alternatif" class="bg-white divide-y divide-gray-200"></tbody>
-          </table>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-100">
+                <tr>
+                  <th class="px-4 py-3 text-left">No</th>
+                  <th class="px-4 py-3 text-left">Nama Obat</th>
+                  <th class="px-4 py-3 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-alternatif" class="bg-white divide-y divide-gray-200"></tbody>
+            </table>
+          </div>
         </div>
       </section>
 
-      <!-- Input Nilai -->
       <section id="page-nilai" class="page-content hidden">
         <div class="bg-white p-6 rounded-xl shadow-lg">
           <h3 class="text-xl font-semibold text-purple-800 mb-4">Input Nilai Alternatif</h3>
@@ -139,10 +220,9 @@
         </div>
       </section>
 
-      <!-- Hasil -->
       <section id="page-hasil" class="page-content hidden">
         <div class="bg-white p-6 rounded-xl shadow-lg">
-          <h3 class="text-xl font-semibold text-purple-800 mb-4">Hasil Perhitungan Weighted Product</h3>
+          <h3 class="text-xl font-semibold text-purple-800 mb-4">Analisis Perhitungan</h3>
           <button id="hitung-ulang" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition mb-4">Hitung Ulang</button>
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-100">
@@ -152,35 +232,98 @@
               </tr>
             </thead>
             <tbody id="tbody-hasil" class="bg-white divide-y divide-gray-200"></tbody>
-            <p id="saran-obat" class="mt-4 text-lg font-semibold text-purple-700"></p>
           </table>
+          <p id="saran-obat" class="mt-4 text-lg font-semibold text-purple-700"></p>
         </div>
       </section>
 
-      <!-- Laporan -->
+      <section id="page-stok" class="page-content hidden">
+  <div class="bg-white p-6 rounded-xl shadow-lg overflow-x-auto">
+    <h3 class="text-xl font-semibold text-purple-800 mb-4">Stok Obat</h3>
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+      <thead class="bg-gray-100 text-gray-700">
+        <tr>
+          <th class="px-4 py-3 text-left">No</th>
+          <th class="px-4 py-3 text-left">Nama Obat</th>
+          <th class="px-4 py-3 text-left">Golongan</th>
+          <th class="px-4 py-3 text-left">Nama Dagang</th>
+          <th class="px-4 py-3 text-left">Produsen</th>
+          <th class="px-4 py-3 text-left">Jumlah Stok</th>
+          <th class="px-4 py-3 text-left">Tanggal Update</th>
+          <th class="px-4 py-3 text-right">Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-stok" class="bg-white divide-y divide-gray-200"></tbody>
+    </table>
+  </div>
+</section>
+
+
+<section id="page-pengguna" class="page-content hidden">
+  <div class="bg-white p-6 rounded-xl shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-semibold text-purple-800">Kelola users</h3>
+      <button onclick="openModal('pengguna')" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">Tambah users</button>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-3 text-left">No</th>
+            <th class="px-4 py-3 text-left">Nama</th>
+            <th class="px-4 py-3 text-left">Email</th>
+            <th class="px-4 py-3 text-left">Role</th>
+            <th class="px-4 py-3 text-right">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-pengguna" class="bg-white divide-y divide-gray-200"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
       <section id="page-laporan" class="page-content hidden">
         <div class="bg-white p-6 rounded-xl shadow-lg">
-          <h3 class="text-xl font-semibold text-purple-800 mb-4">Laporan SPK</h3>
-          <button id="cetak-laporan" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition mb-4">Cetak Laporan</button>
+          <h3 class="text-xl font-semibold text-purple-800 mb-4">Laporan Hasil SPK</h3>
           <div id="laporan-container"></div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- Modal -->
+  <!-- 🔹 Modal global -->
   <div id="modal-backdrop" class="fixed inset-0 bg-black/50 hidden"></div>
-  <div id="crud-modal" class="fixed inset-0 hidden items-center justify-center">
-    <div id="modal-content" class="bg-white p-6 rounded-xl w-full max-w-md shadow-lg transform transition">
+  <div id="crud-modal" class="fixed inset-0 hidden items-center justify-center overflow-y-auto">
+    <div id="modal-content" class="bg-white p-6 rounded-xl w-full max-w-md shadow-lg transform transition overflow-y-auto">
       <h2 id="modal-title" class="text-lg font-bold text-purple-800 mb-4"></h2>
       <div id="modal-body"></div>
       <div class="flex justify-end mt-4 space-x-2">
-        <button onclick="closeModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Batal</button>
-        <button onclick="handleFormSubmit()" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Simpan</button>
+        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Batal</button>
+        <button type="button" onclick="handleFormSubmit()" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Simpan</button>
       </div>
     </div>
   </div>
 
-  <!-- <script src="https://kit.fontawesome.com/a2e0e6c28a.js" crossorigin="anonymous"></script> -->
+  <script>
+    // sembunyikan preloader setelah halaman siap, atau jika load profil gagal
+  async function hidePreloader() {
+    const pre = document.getElementById("preloader");
+    if (pre) pre.style.display = "none";
+  }
+
+  window.addEventListener("load", () => {
+    // kasih timeout maksimal supaya gak nyangkut kalau fetch gagal
+    setTimeout(hidePreloader, 3000);
+  });
+
+  // pastikan logout tetap jalan
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("logout-btn");
+    if (btn) btn.addEventListener("click", () => window.logout?.());
+  });
+
+  // kalau loadProfilAdmin() error, langsung sembunyikan preloader juga
+  window.addEventListener("error", hidePreloader);
+  </script>
 </body>
 </html>

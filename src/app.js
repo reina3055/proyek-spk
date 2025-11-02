@@ -12,6 +12,7 @@ import { pool } from "./config/db.js";
 //  import uploadRoutes from "./routes/auth/uploadRoutes.js";
 //  import spkRoutes from "./routes/spk/index.js"; // ← aggregator spk routes
   import allRoutes from "./routes/index.js";
+  import authRoutes from "./routes/auth/authRoutes.js";
 
 
 const app = express();
@@ -30,10 +31,11 @@ app.use(session({
 }));
 
 // === ROUTING ===
-//  app.use("/api/auth", authRoutes);
+  app.use("/api", allRoutes);
 //  app.use("/api/auth", uploadRoutes);
 //  app.use("/api/spk", spkRoutes);
-  app.use("/api", allRoutes);
+
+  //app.use("/api/spk", spkRoutes);
 
 // Default route
 app.get("/", (req, res) => {
