@@ -22,21 +22,23 @@ async function seed() {
     await conn.query("ALTER TABLE kriteria AUTO_INCREMENT = 1");
     await conn.query("SET FOREIGN_KEY_CHECKS = 1");
 
-    // ====== KRITERIA ======
+    // ====== KRITERIA (STANDAR KLINIS) ======
     const kriteria = [
-      { nama: "Efektivitas", bobot: 0.35, tipe: "benefit" },
-      { nama: "Efek Samping", bobot: 0.25, tipe: "cost" },
-      { nama: "Harga", bobot: 0.20, tipe: "cost" },
-      { nama: "Ketersediaan", bobot: 0.10, tipe: "benefit" },
-      { nama: "Kemudahan Konsumsi", bobot: 0.10, tipe: "benefit" },
+      { nama: "Efektivitas Penurunan TD", bobot: 0.30, tipe: "benefit" },
+      { nama: "Kontraindikasi & Interaksi", bobot: 0.25, tipe: "cost" },
+      { nama: "Profil Efek Samping", bobot: 0.20, tipe: "cost" },
+      { nama: "Frekuensi Dosis Harian", bobot: 0.10, tipe: "cost" },
+      { nama: "Biaya Terapi Bulanan", bobot: 0.10, tipe: "cost" },
+      { nama: "Ketersediaan (Stok)", bobot: 0.05, tipe: "benefit" },
     ];
+
     console.log("📦 Menyisipkan data kriteria...");
     for (const k of kriteria) {
       await conn.query(
         "INSERT INTO kriteria (nama_kriteria, bobot, tipe) VALUES (?, ?, ?)",
         [k.nama, k.bobot, k.tipe]
       );
-      console.log(`  ➕ ${k.nama}`);
+      console.log(`  ➕ ${k.nama} (Bobot: ${k.bobot}, Tipe: ${k.tipe})`);
     }
 
     // ====== DATA OBAT (20 ITEM) ======
@@ -72,11 +74,14 @@ async function seed() {
       );
       const altId = resAlt.insertId;
 
-      // Simpan ke tabel stok_obat (lengkap, termasuk nama_obat)
+      // Simpan ke tabel stok_obat (lengkap, termasuk kolom baru)
+      // 🟣 MODIFIKASI: Menambahkan 3 kolom baru di INSERT
       await conn.query(
         `INSERT INTO stok_obat
-         (id_alternatif, nama_obat, golongan, fungsi, nama_dagang, produsen, efek_samping, jumlah_stok)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+         (id_alternatif, nama_obat, golongan, fungsi, nama_dagang, produsen, 
+          efek_samping_teks, jumlah_stok, 
+          biaya_bulanan, frekuensi_dosis, kontraindikasi_teks)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           altId,
           o.nama_obat,
@@ -84,8 +89,13 @@ async function seed() {
           o.fungsi,
           o.nama_dagang,
           o.produsen,
-          null, // efek samping kosong dulu
-          0     // stok awal = 0
+          null, // efek_samping_teks (kosong dulu)
+          0,    // jumlah_stok (awal = 0)
+          
+          // 🟣 MODIFIKASI: Nilai default untuk kolom baru
+          0,    // biaya_bulanan (dummy = 0)
+          1,    // frekuensi_dosis (dummy = 1x sehari)
+          null  // kontraindikasi_teks (kosong dulu)
         ]
       );
       console.log(`  ➕ ${o.nama_obat}`);

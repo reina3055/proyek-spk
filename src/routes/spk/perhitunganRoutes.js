@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(verifyToken);
 
 // ✅ alias /calculate agar cocok dengan frontend
-router.get("/calculate", hitungWP);
+router.get("/calculate", verifyToken, hitungWP);
 router.get("/", hitungWP);
 
 export default router;

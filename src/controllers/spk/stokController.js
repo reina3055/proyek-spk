@@ -1,4 +1,7 @@
 import * as stokModel from "../../models/stokModel.js";
+//import { autoKonversiNilai } from "../../utils/autoKonversiNilaiKlinis.js";
+
+
 
 export const getAllStok = async (req, res) => {
   try {
@@ -53,3 +56,5 @@ export const deleteStok = async (req, res) => {
     res.status(500).json({ message: "Gagal menghapus stok obat" });
   }
 };
+
+//await autoKonversiNilai();

@@ -5,6 +5,7 @@
 import { authFetch } from "./utils.js";
 
 // ---------- Modal ----------
+// ---------- Modal ----------
 export async function openModal(type, id = null) {
   const modalBackdrop = document.getElementById("modal-backdrop");
   const crudModal = document.getElementById("crud-modal");
@@ -14,19 +15,23 @@ export async function openModal(type, id = null) {
   let title = "";
   let formHtml = "";
 
+  // ---------- Form Builder ----------
   if (type === "kriteria") {
     title = id ? "Edit Kriteria" : "Tambah Kriteria";
     formHtml = `
       <form id="form-kriteria" data-type="kriteria" class="space-y-3">
         <input type="hidden" name="id" value="${id || ""}">
+        
         <div>
-          <label class="block text-sm font-medium">Nama Kriteria</label>
+          <label class="block text-sm font-medium">Nama Kriteria<span class="text-red-500 font-bold cursor-help" title="Wajib diisi">*</span></label>
           <input type="text" name="nama_kriteria" class="w-full border rounded-lg px-3 py-2" required>
         </div>
+
         <div>
-          <label class="block text-sm font-medium">Bobot</label>
+          <label class="block text-sm font-medium">Bobot<span class="text-red-500 font-bold cursor-help" title="Wajib diisi">*</span></label>
           <input type="number" name="bobot" step="0.01" class="w-full border rounded-lg px-3 py-2" required>
         </div>
+
         <div>
           <label class="block text-sm font-medium">Tipe</label>
           <select name="tipe" class="w-full border rounded-lg px-3 py-2" required>
@@ -35,8 +40,9 @@ export async function openModal(type, id = null) {
           </select>
         </div>
       </form>`;
+  }
 
-  } else if (type === "alternatif") {
+  else if (type === "alternatif") {
     title = id ? "Edit Obat" : "Tambah Obat";
     formHtml = `
       <form id="form-alternatif" data-type="alternatif" class="space-y-3">
@@ -46,7 +52,9 @@ export async function openModal(type, id = null) {
           <input type="text" name="nama_obat" class="w-full border rounded-lg px-3 py-2" required>
         </div>
       </form>`;
-  } else if (type === "stok") {
+  }
+
+  else if (type === "stok") {
     title = id ? "Edit Stok Obat" : "Tambah Stok Obat";
     formHtml = `
       <form id="form-stok" data-type="stok" class="space-y-3">
@@ -68,61 +76,105 @@ export async function openModal(type, id = null) {
           <input type="text" name="produsen" class="w-full border rounded-lg px-3 py-2">
         </div>
         <div>
+          <label class="block text-sm font-medium">Efek Samping</label>
+          <input type="text" name="efek_samping_teks" class="w-full border rounded-lg px-3 py-2">
+        </div>
+        <div>
           <label class="block text-sm font-medium">Jumlah Stok</label>
           <input type="number" name="jumlah_stok" class="w-full border rounded-lg px-3 py-2" required>
         </div>
       </form>`;
-  } else if (type === "pengguna") {
-  title = id ? "Edit Pengguna" : "Tambah Pengguna";
-  formHtml = `
-    <form id="form-pengguna" data-type="pengguna" class="space-y-3">
-      <input type="hidden" name="id" value="${id || ""}">
-      <div>
-        <label class="block text-sm font-medium">Nama</label>
-        <input type="text" name="nama" class="w-full border rounded-lg px-3 py-2" required>
-      </div>
-      <div>
-        <label class="block text-sm font-medium">Email</label>
-        <input type="email" name="email" class="w-full border rounded-lg px-3 py-2" required>
-      </div>
-      <div>
-        <label class="block text-sm font-medium">Password</label>
-        <input type="password" name="password" class="w-full border rounded-lg px-3 py-2" ${id ? "" : "required"}>
-      </div>
-      <div>
-        <label class="block text-sm font-medium">Role</label>
-        <select name="role" class="w-full border rounded-lg px-3 py-2" required>
-          <option value="admin">admin</option>
-          <option value="super-admin">Super-user</option>
-        </select>
-      </div>
-    </form>`;
-}
+  }
 
+  else if (type === "pengguna") {
+    title = id ? "Edit Pengguna" : "Tambah Pengguna";
+    formHtml = `
+      <form id="form-pengguna" data-type="pengguna" class="space-y-3">
+        <input type="hidden" name="id" value="${id || ""}">
+        <div>
+          <label class="block text-sm font-medium">Nama</label>
+          <input type="text" name="nama" class="w-full border rounded-lg px-3 py-2" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Email</label>
+          <input type="email" name="email" class="w-full border rounded-lg px-3 py-2" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Password</label>
+          <input type="password" name="password" class="w-full border rounded-lg px-3 py-2" ${id ? "" : "required"}>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Role</label>
+          <select name="role" class="w-full border rounded-lg px-3 py-2" required>
+            <option value="admin">Admin</option>
+            <option value="super-admin">Super-user</option>
+          </select>
+        </div>
+      </form>`;
+  }
 
+  // ---------- Render Modal ----------
   modalTitle.textContent = title;
   modalBody.innerHTML = formHtml;
   modalBackdrop.classList.remove("hidden");
   crudModal.classList.remove("hidden");
-
-// 🔹 isi data lama kalau edit
+  // pastikan form punya dataset.id jika edit (menghindari race)
+const form = document.querySelector("#crud-modal form");
+if (id) form.dataset.id = id;
+  // ---------- Load Data Lama ----------
   if (id) {
     try {
       const baseUrl = type === "pengguna" ? "/api/auth/users" : `/api/spk/${type}`;
       const res = await authFetch(`${baseUrl}/${id}`);
+
       if (res.ok) {
         const data = await res.json();
         const form = document.querySelector("#crud-modal form");
-        Object.keys(data).forEach(key => {
+
+        // mapping field API → field form
+        const map = {
+          kriteria: {
+            id: data.id_kriteria,
+            nama_kriteria: data.nama_kriteria,
+            bobot: data.bobot,
+            tipe: data.tipe
+          },
+          alternatif: {
+            id: data.id_alternatif,
+            nama_obat: data.nama_obat
+          },
+          stok: {
+            id: data.id,
+            nama_obat: data.nama_obat,
+            golongan: data.golongan,
+            nama_dagang: data.nama_dagang,
+            produsen: data.produsen,
+            efek_samping_teks: data.efek_samping_teks,
+            jumlah_stok: data.jumlah_stok
+          },
+          pengguna: {
+            id: data.id,
+            nama: data.nama,
+            email: data.email,
+            role: data.role
+          }
+        };
+
+        const filled = map[type];
+
+        // isi form dengan data lama
+        for (const key in filled) {
           const field = form.querySelector(`[name="${key}"]`);
-          if (field) field.value = data[key];
-        });
+          if (field) field.value = filled[key];
+        }
       }
     } catch (err) {
       console.error(`Gagal memuat data ${type} ID ${id}:`, err);
     }
   }
 }
+
+
 
 export function closeModal() {
   document.getElementById("modal-backdrop").classList.add("hidden");
@@ -156,7 +208,7 @@ export async function loadKriteria() {
             class="bg-purple-100 text-purple-700 px-3 py-1 rounded-md hover:bg-purple-200 transition text-sm">
             <i class="fa-solid fa-pen mr-1"></i>Edit
             </button>
-            <button onclick="kriteria(${k.id_kriteria})"
+            <button onclick="hapusKriteria(${k.id_kriteria})"
             class="bg-red-100 text-red-700 px-3 py-1 rounded-md hover:bg-red-200 transition text-sm">
             <i class="fa-solid fa-trash mr-1"></i>Hapus
             </button>
@@ -172,7 +224,6 @@ export async function loadKriteria() {
 
 async function handleFormSubmit(e) {
   if (e && e.preventDefault) e.preventDefault();
-
   const form = e?.target || document.querySelector("#crud-modal form");
   const type = form.dataset.type;
   if (!type) {
@@ -182,9 +233,23 @@ async function handleFormSubmit(e) {
 }
   const id = form.dataset.id || form.querySelector("[name='id']")?.value || null;
   const formData = Object.fromEntries(new FormData(form));
+  // 🔒 VALIDASI khusus kriteria
+if (type === "kriteria") {
+  if (!formData.nama_kriteria || formData.nama_kriteria.trim() === "") {
+    alert("Nama kriteria wajib diisi!");
+    return;
+  }
 
+  if (!formData.bobot || formData.bobot.trim() === "") {
+    alert("Bobot wajib diisi!");
+    return;
+  }
 
-
+  if (isNaN(formData.bobot)) {
+    alert("Bobot harus berupa angka!");
+    return;
+  }
+}
 
   try {
     let endpoint;
@@ -214,48 +279,16 @@ async function handleFormSubmit(e) {
 
     alert(result.message || "Data berhasil disimpan!");
     closeModal(); // kalau kamu punya fungsi tutup modal
-    loadTable(type); // reload tabel setelah simpan
+    // panggil fungsi reload sesuai tipe data
+if (type === "kriteria") loadKriteria();
+else if (type === "alternatif") loadAlternatif();
+else if (type === "stok") loadStok();
+else if (type === "pengguna") loadPengguna(); // reload tabel setelah simpan
   } catch (err) {
     console.error(`❌ handleFormSubmit error:`, err);
     alert(`Gagal menyimpan data ${type}. (${err.message})`);
   }
 }
-
-
-// export async function handleFormSubmit() {
-//   const form = document.querySelector("#crud-modal form");
-//   if (!form) return;
-
-//   const formData = new FormData(form);
-//   const id = formData.get("id");
-//   const body = Object.fromEntries(formData.entries());
-
-//   let endpoint = "";
-//   if (form.id === "form-stok") endpoint = "/api/spk/stok";
-//   else if (form.id === "form-kriteria") endpoint = "/api/spk/kriteria";
-//   else if (form.id === "form-alternatif") endpoint = "/api/spk/alternatif";
-//   else if (form.id === "form-pengguna") endpoint = "/api/auth/users";
-
-//   try {
-//     const res = await authFetch(`${endpoint}${id ? `/${id}` : ""}`, {
-//       method: id ? "PUT" : "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(body),
-//     });
-
-//     const data = await res.json();
-//     alert(data.message || "Data berhasil disimpan!");
-//     closeModal();
-
-//     if (form.id === "form-pengguna") loadPengguna();
-//     else if (form.id === "form-stok") loadStok();
-//     else if (form.id === "form-kriteria") loadKriteria();
-//     else loadAlternatif();
-//   } catch (err) {
-//     console.error("handleFormSubmit error:", err);
-//     alert("❌ Gagal menyimpan data!");
-//   }
-// }
 
 export async function hapusKriteria(id) {
   if (!confirm("Yakin ingin menghapus kriteria ini?")) return;
@@ -334,6 +367,7 @@ export async function loadStok() {
           <td class="px-4 py-2">${s.golongan || "-"}</td>
           <td class="px-4 py-2">${s.nama_dagang || "-"}</td>
           <td class="px-4 py-2">${s.produsen || "-"}</td>
+          <td class="px-4 py-2">${s.efek_samping_teks || "-"}</td>
           <td class="px-4 py-2">${s.jumlah_stok ?? 0}</td>
           <td class="px-4 py-2">${new Date(s.tanggal_update).toLocaleString()}</td>
           <td class="px-4 py-2 text-right space-x-2">
@@ -420,7 +454,6 @@ export async function hapusPengguna(id) {
 
 // ---------- Input nilai (placeholder) ----------
 //import { authFetch } from "./utils.js";
-
 export async function renderInputNilai() {
   const container = document.getElementById("nilai-container");
   if (!container) return;
@@ -433,49 +466,67 @@ export async function renderInputNilai() {
       authFetch("/api/spk/alternatif"),
       authFetch("/api/spk/kriteria")
     ]);
-    const [alternatif, kriteria] = await Promise.all([
-      altRes.json(),
-      kriRes.json()
-    ]);
+
+    const alternatif = await altRes.json();
+    const kriteria = await kriRes.json();
 
     if (!alternatif.length || !kriteria.length) {
       container.innerHTML = `<p class="text-red-500 text-center py-4">Data alternatif atau kriteria kosong!</p>`;
       return;
     }
 
-    // Ambil data nilai
+    // ==========================
+    // 1) LOAD NILAI LAMA
+    // ==========================
     const nilaiRes = await authFetch("/api/spk/nilai");
     const nilaiList = await nilaiRes.json();
 
-    // Buat peta nilai {id_alternatif: {id_kriteria: nilai}}
+    // buat map: { id_alt: { id_kri: nilai } }
     const nilaiMap = {};
     nilaiList.forEach(n => {
       if (!nilaiMap[n.id_alternatif]) nilaiMap[n.id_alternatif] = {};
       nilaiMap[n.id_alternatif][n.id_kriteria] = n.nilai;
     });
 
-    // Buat tabel interaktif
-    const headerRow = kriteria.map(k => `<th class="px-3 py-2 border">${k.nama_kriteria}</th>`).join("");
-    const bodyRows = alternatif.map(a => {
-      const nilaiCells = kriteria.map(k => {
-        const v = nilaiMap[a.id_alternatif]?.[k.id_kriteria] ?? "";
-        return `<td class="px-3 py-2 border">
-          <select class="w-full border rounded px-2 py-1 nilai-input" data-alt="${a.id_alternatif}" data-kri="${k.id_kriteria}">
-          <option value="">-</option>
-          <option value="1" ${v == 1 ? "selected" : ""}>1 - Sangat Buruk</option>
-          <option value="2" ${v == 2 ? "selected" : ""}>2 - Buruk</option>
-          <option value="3" ${v == 3 ? "selected" : ""}>3 - Cukup</option>
-          <option value="4" ${v == 4 ? "selected" : ""}>4 - Baik</option>
-          <option value="5" ${v == 5 ? "selected" : ""}>5 - Sangat Baik</option>
-          </select>
-        </td>`;
-      }).join("");
+    // ==========================
+    // 2) RENDER TABEL
+    // ==========================
+    const headerRow = kriteria
+      .map(k => `<th class="px-3 py-2 border">${k.nama_kriteria}</th>`)
+      .join("");
 
-      return `<tr>
-        <td class="px-3 py-2 border font-medium">${a.nama_obat}</td>
-        ${nilaiCells}
-      </tr>`;
-    }).join("");
+    const bodyRows = alternatif
+      .map(a => {
+        const nilaiCells = kriteria
+          .map(k => {
+            const v = nilaiMap[a.id_alternatif]?.[k.id_kriteria] ?? "";
+
+            return `
+              <td class="px-3 py-2 border">
+                <select 
+                  class="w-full border rounded px-2 py-1 nilai-input"
+                  data-alt="${a.id_alternatif}"
+                  data-kri="${k.id_kriteria}"
+                >
+                  <option value="">-</option>
+                  <option value="1" ${v == 1 ? "selected" : ""}>1 - Sangat Buruk</option>
+                  <option value="2" ${v == 2 ? "selected" : ""}>2 - Buruk</option>
+                  <option value="3" ${v == 3 ? "selected" : ""}>3 - Cukup</option>
+                  <option value="4" ${v == 4 ? "selected" : ""}>4 - Baik</option>
+                  <option value="5" ${v == 5 ? "selected" : ""}>5 - Sangat Baik</option>
+                </select>
+              </td>
+            `;
+          })
+          .join("");
+
+        return `
+        <tr>
+          <td class="px-3 py-2 border font-medium">${a.nama_obat}</td>
+          ${nilaiCells}
+        </tr>`;
+      })
+      .join("");
 
     container.innerHTML = `
       <div class="overflow-x-auto">
@@ -489,52 +540,175 @@ export async function renderInputNilai() {
           <tbody>${bodyRows}</tbody>
         </table>
       </div>
+
       <div class="text-right mt-4">
-        <button id="simpan-nilai" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+        <button id="simpan-nilai" 
+          class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
           Simpan Nilai
         </button>
       </div>
     `;
 
-    // Simpan data ke server
-    document.getElementById("simpan-nilai").addEventListener("click", async () => {
-      const inputs = document.querySelectorAll(".nilai-input");
-      const payload = [];
+    // ==========================
+    // 3) SIMPAN NILAI BARU
+    // ==========================
+    document.getElementById("simpan-nilai")
+      .addEventListener("click", async () => {
 
-      inputs.forEach(inp => {
-        const nilai = parseFloat(inp.value);
-        if (isNaN(nilai)) return;
-        payload.push({
-          id_alternatif: inp.dataset.alt,
-          id_kriteria: inp.dataset.kri,
-          nilai
+        const inputs = document.querySelectorAll(".nilai-input");
+        const payload = [];
+
+        inputs.forEach(inp => {
+          if (inp.value !== "") {
+            payload.push({
+              id_alternatif: Number(inp.dataset.alt),
+              id_kriteria: Number(inp.dataset.kri),
+              nilai: Number(inp.value)
+            });
+          }
         });
+
+        if (!payload.length) {
+          alert("Tidak ada nilai yang diisi!");
+          return;
+        }
+
+        try {
+          const res = await authFetch("/api/spk/nilai/bulk", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await res.json();
+          alert(data.message || "Nilai berhasil disimpan!");
+          renderInputNilai(); // refresh tampilkan nilai yang tersimpan
+        } catch (err) {
+          console.error("Gagal menyimpan nilai:", err);
+          alert("Gagal menyimpan nilai!");
+        }
       });
-
-      if (payload.length === 0) {
-        alert("Tidak ada nilai yang diisi!");
-        return;
-      }
-
-      try {
-        const res = await authFetch("/api/spk/nilai/bulk", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        alert(data.message || "✅ Nilai berhasil disimpan!");
-      } catch (err) {
-        console.error("Simpan nilai gagal:", err);
-        alert("❌ Gagal menyimpan nilai!");
-      }
-    });
 
   } catch (err) {
     console.error("renderInputNilai error:", err);
     container.innerHTML = `<p class="text-red-500 text-center py-4">Gagal memuat form nilai.</p>`;
   }
 }
+
+// export async function renderInputNilai() {
+//   const container = document.getElementById("nilai-container");
+//   if (!container) return;
+
+//   container.innerHTML = `<p class="text-gray-500 text-center py-4">Memuat tabel nilai...</p>`;
+
+//   try {
+//     // Ambil data alternatif dan kriteria
+//     const [altRes, kriRes] = await Promise.all([
+//       authFetch("/api/spk/alternatif"),
+//       authFetch("/api/spk/kriteria")
+//     ]);
+//     const [alternatif, kriteria] = await Promise.all([
+//       altRes.json(),
+//       kriRes.json()
+//     ]);
+
+//     if (!alternatif.length || !kriteria.length) {
+//       container.innerHTML = `<p class="text-red-500 text-center py-4">Data alternatif atau kriteria kosong!</p>`;
+//       return;
+//     }
+
+//     // Ambil data nilai
+//      const nilaiRes = await authFetch("/api/spk/nilai");
+//      const nilaiList = await nilaiRes.json();
+
+//     // Buat peta nilai {id_alternatif: {id_kriteria: nilai}}
+//     // const nilaiMap = {};
+//     // nilaiList.forEach(n => {
+//     //   if (!nilaiMap[n.id_alternatif]) nilaiMap[n.id_alternatif] = {};
+//     //   nilaiMap[n.id_alternatif][n.id_kriteria] = n.nilai;
+//     // });
+
+//     // Buat tabel interaktif
+//     const headerRow = kriteria.map(k => `<th class="px-3 py-2 border">${k.nama_kriteria}</th>`).join("");
+//     const bodyRows = alternatif.map(a => {
+//       const nilaiCells = kriteria.map(k => {
+//         //const v = nilaiMap[a.id_alternatif]?.[k.id_kriteria] ?? "";
+//         return `<td class="px-3 py-2 border">
+//           <select class="w-full border rounded px-2 py-1 nilai-input" data-alt="${a.id_alternatif}" data-kri="${k.id_kriteria}">
+//           <option value="">-</option>
+//           <option value="1" >1 - Sangat Buruk</option>
+//           <option value="2" >2 - Buruk</option>
+//           <option value="3" >3 - Cukup</option>
+//           <option value="4" >4 - Baik</option>
+//           <option value="5" >5 - Sangat Baik</option>
+//           </select>
+//         </td>`;
+//       }).join("");
+
+//       return `<tr>
+//         <td class="px-3 py-2 border font-medium">${a.nama_obat}</td>
+//         ${nilaiCells}
+//       </tr>`;
+//     }).join("");
+
+//     container.innerHTML = `
+//       <div class="overflow-x-auto">
+//         <table class="min-w-full border border-gray-300 text-sm">
+//           <thead class="bg-purple-100">
+//             <tr>
+//               <th class="px-3 py-2 border">Alternatif</th>
+//               ${headerRow}
+//             </tr>
+//           </thead>
+//           <tbody>${bodyRows}</tbody>
+//         </table>
+//       </div>
+//       <div class="text-right mt-4">
+//         <button id="simpan-nilai" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+//           Simpan Nilai
+//         </button>
+//       </div>
+//     `;
+
+//     // Simpan data ke server
+//     document.getElementById("simpan-nilai").addEventListener("click", async () => {
+//       const inputs = document.querySelectorAll(".nilai-input");
+//       const payload = [];
+
+//       inputs.forEach(inp => {
+//         const nilai = parseFloat(inp.value);
+//         if (isNaN(nilai)) return;
+//         payload.push({
+//           id_alternatif: inp.dataset.alt,
+//           id_kriteria: inp.dataset.kri,
+//           nilai
+//         });
+//       });
+
+//       if (payload.length === 0) {
+//         alert("Tidak ada nilai yang diisi!");
+//         return;
+//       }
+
+//       try {
+//         const res = await authFetch("/api/spk/nilai/bulk", {
+//           method: "POST",
+//           headers: { "Content-Type": "application/json" },
+//           body: JSON.stringify(payload)
+//         });
+//         const data = await res.json();
+//         alert(data.message || "✅ Nilai berhasil disimpan!");
+//       } catch (err) {
+//         console.error("Simpan nilai gagal:", err);
+//         alert("❌ Gagal menyimpan nilai!");
+//       }
+//     });
+
+//   } catch (err) {
+//     console.error("renderInputNilai error:", err);
+//     container.innerHTML = `<p class="text-red-500 text-center py-4">Gagal memuat form nilai.</p>`;
+//   }
+// }
 
 // backward compatibility (attach ke window)
 window.loadPengguna = window.loadPengguna || loadPengguna;

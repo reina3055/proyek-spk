@@ -1,0 +1,313 @@
+/* --- Global & Variabel --- */
+:root {
+    --primary-color: #4a148c; /* Ungu tua */
+    --primary-light: #ab47bc; /* Ungu muda */
+    --secondary-color: #1e88e5; /* Biru */
+    --success-color: #43a047; /* Hijau */
+    --danger-color: #e53935; /* Merah */
+    --light-bg: #f5f5f5;
+    --dark-text: #333;
+    --white: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Header & Navigasi --- */
+.navbar {
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    padding: 15px 0;
+    margin-bottom: 30px;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--dark-text);
+    font-weight: 500;
+    margin-left: 20px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: var(--light-bg);
+}
+
+.nav-link.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* --- Tombol (Sesuai Panduan) --- */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+.btn-primary:hover {
+    background-color: #38006b;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--white);
+}
+.btn-secondary:hover {
+    background-color: #1565c0;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: var(--white);
+}
+.btn-success:hover {
+    background-color: #2e7d32;
+}
+
+.btn-group {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+/* --- Halaman: index.html (Hero) --- */
+.hero {
+    text-align: center;
+    background-color: var(--white);
+    padding: 60px 40px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.hero .subtitle {
+    font-size: 1.5rem;
+    color: var(--primary-light);
+    margin-bottom: 20px;
+}
+
+.hero .description {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+}
+
+.hero #btn-hitung-wp {
+    font-size: 1.2rem;
+}
+
+/* --- Halaman: hitung.html --- */
+.page-title {
+    font-size: 2rem;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-light);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.controls {
+    margin: 20px 0;
+}
+
+.result-container {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.result-table th,
+.result-table td {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.result-table th {
+    background-color: var(--light-bg);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.result-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.saran-terbaik {
+    font-size: 1.1rem;
+    font-weight: 500;
+    background-color: #e8f5e9; /* Latar hijau muda */
+    color: #1b5e20;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid var(--success-color);
+    margin: 20px 0;
+}
+
+.action-buttons {
+    margin-top: 20px;
+}
+
+/* --- Halaman: laporan.html --- */
+.filter-controls {
+    background-color: var(--white);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filter-controls label {
+    font-weight: 500;
+}
+
+.filter-controls input[type="date"] {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-family: inherit;
+}
+
+#laporan-table {
+    margin-top: 20px;
+    background-color: var(--white);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+/* --- Utility Classes (Sesuai Panduan) --- */
+.loading-text {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+    padding: 20px;
+}
+
+.error-text {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--danger-color);
+    background-color: #ffebee;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--danger-color);
+}
+
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 40px;
+    color: #777;
+    border-top: 1px solid var(--border-color);
+}
+
+/* --- Responsive Layout --- */
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-link {
+        margin-left: 5px;
+    }
+    
+    .filter-controls, .btn-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-controls input[type="date"] {
+        width: 100%;
+    }
+}
+
+/* --- Halaman: tentang.html --- */
+.content-box {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    font-size: 1.1rem;
+}
+
+.content-box h3 {
+    color: var(--primary-color);
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--light-bg);
+    padding-bottom: 5px;
+}
+
+.content-box ul {
+    list-style-position: inside;
+    padding-left: 10px;
+}
+
+.content-box li {
+    margin-bottom: 8px;
+    color: #555;
+}

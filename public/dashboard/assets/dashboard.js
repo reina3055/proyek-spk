@@ -1,249 +1,126 @@
-// ============================================================
-// dashboard.js — Statistik Ringkas + Chart WP
-// ============================================================
 import { authFetch } from "../modules/utils.js";
 
-// 🔹 Animasi angka naik (count-up)
-function animateNumber(element, target, duration = 800) {
-  const start = 0;
-  const increment = target / (duration / 16);
-  let current = start;
+// Animasi angka
+function animateNumber(el, target, duration = 700) {
+  let current = 0;
+  const step = target / (duration / 16);
 
   function update() {
-    current += increment;
+    current += step;
     if (current < target) {
-      element.textContent = Math.floor(current);
+      el.textContent = Math.floor(current);
       requestAnimationFrame(update);
     } else {
-      element.textContent = target;
+      el.textContent = target;
     }
   }
-
-  requestAnimationFrame(update);
+  update();
 }
 
-// 🔹 Render Dashboard Utama
 export async function renderDashboard() {
   try {
-    // Ambil semua data utama secara paralel
-    const [altRes, kriRes, stokRes, admRes, calcRes] = await Promise.all([
+    const [alt, kri, stok, adm, calc] = await Promise.all([
       authFetch("/api/spk/alternatif"),
       authFetch("/api/spk/kriteria"),
       authFetch("/api/spk/stok"),
       authFetch("/api/auth/users"),
-      authFetch("/api/spk/calculate"),
+      authFetch("/api/spk/calculate"), // sudah WP versi baru
     ]);
 
-    // Cek apakah semua respon OK
-    if (![altRes, kriRes, stokRes, admRes, calcRes].every(r => r.ok)) {
-      console.error("Gagal mengambil salah satu sumber data.");
-      return;
-    }
+    const alternatif = await alt.json();
+    const kriteria = await kri.json();
+    const stokData = await stok.json();
+    const admin = await adm.json();
+    const hasil = await calc.json(); // WP sekarang -> score + preferensi
 
-    const [alternatif, kriteria, stok, admin, hasil] = await Promise.all([
-      altRes.json(),
-      kriRes.json(),
-      stokRes.json(),
-      admRes.json(),
-      calcRes.json(),
-    ]);
-
-    // ============================================================
-    // 🟣 Update card summary (total data)
-    // ============================================================
+    // Update Cards
     animateNumber(document.getElementById("card-alternatif"), alternatif.length);
     animateNumber(document.getElementById("card-kriteria"), kriteria.length);
     animateNumber(
       document.getElementById("card-stok-rendah"),
-      stok.filter(s => (s.jumlah_stok ?? 0) < 10).length
+      stokData.filter(s => (s.jumlah_stok ?? 0) < 10).length
     );
     animateNumber(document.getElementById("card-admin"), admin.length);
 
-    // ============================================================
-    // 🟣 Fallback jika belum ada hasil WP (belum input nilai)
-    // ============================================================
-    const ctx = document.getElementById("chartWpResults").getContext("2d");
-
-    if (!hasil || hasil.length === 0) {
-      console.warn("⚠️ Belum ada data hasil WP. Kemungkinan belum ada nilai yang diinput.");
-
-      // Bersihkan chart lama kalau ada
-      if (window.wpChart) window.wpChart.destroy();
-
-      // Tampilkan teks placeholder di kanvas
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-      ctx.font = "16px sans-serif";
-      ctx.fillStyle = "#888";
-      ctx.textAlign = "center";
-      ctx.fillText(
-        "Belum ada hasil perhitungan. Silakan isi nilai terlebih dahulu.",
-        ctx.canvas.width / 2,
-        ctx.canvas.height / 2
-      );
-
-      return; // hentikan proses biar gak lanjut render chart kosong
+    // ============================
+    // 🔹 Alternatif terbaik (preferensi tertinggi)
+    // ============================
+    if (hasil.length > 0) {
+      const terbaik = [...hasil].sort((a, b) => b.preferensi - a.preferensi)[0];
+      document.getElementById("alternatif-terbaik").textContent =
+        `${terbaik.nama} ( ${terbaik.preferensi.toFixed(4)} )`;
     }
 
-    // ============================================================
-    // 🟣 Render Chart WP
-    // ============================================================
-    const chartData = hasil.map(h => ({
-      label: h.nama_alternatif,
-      value: parseFloat(h.nilai_preferensi) || 0,
-    }));
+    // ============================
+    // 🔹 Render Chart WP (pakai preferensi)
+    // ============================
+    const ctx = document.getElementById("chartWpResults").getContext("2d");
 
     if (window.wpChart) window.wpChart.destroy();
 
     window.wpChart = new Chart(ctx, {
       type: "bar",
       data: {
-        labels: chartData.map(d => d.label),
+        labels: hasil.map(h => h.nama),
         datasets: [
           {
-            label: "Nilai Preferensi",
-            data: chartData.map(d => d.value),
-            borderWidth: 1,
+            label: "Nilai Preferensi WP",
+            data: hasil.map(h => h.preferensi),
             backgroundColor: "#A78BFA",
           },
         ],
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-          y: {
-            beginAtZero: true,
-            title: { display: true, text: "Nilai Preferensi" },
-          },
-        },
+          y: { beginAtZero: true }
+        }
       },
     });
 
-    // ============================================================
-    // 🟣 Navigasi dari card ke halaman terkait
-    // ============================================================
+    // ============================
+    // 🔹 Top 5 Ranking (by preferensi)
+    // ============================
+    const top5 = [...hasil].sort((a, b) => b.preferensi - a.preferensi).slice(0, 5);
+
+    document.getElementById("top5-ranking").innerHTML = top5
+      .map(
+        (r, i) => `
+        <tr>
+          <td class="px-3 py-2">${i + 1}</td>
+          <td class="px-3 py-2">${r.nama}</td>
+          <td class="px-3 py-2">${r.preferensi.toFixed(4)}</td>
+        </tr>`
+      )
+      .join("");
+
+    // ============================
+    // 🔹 Bobot Kriteria
+    // ============================
+    document.getElementById("bobot-kriteria").innerHTML = kriteria
+      .map(
+        k => `
+      <div class="p-4 bg-gray-50 border rounded-lg shadow-sm">
+        <p class="font-semibold text-purple-800">${k.nama_kriteria}</p>
+        <p class="text-sm text-gray-600">Bobot: ${k.bobot}</p>
+        <p class="text-xs text-gray-500">Tipe: ${k.tipe}</p>
+      </div>`
+      )
+      .join("");
+
+    // Klik navigasi
     document.querySelectorAll("#dashboard-cards > div[data-target]").forEach(card => {
       card.addEventListener("click", () => {
-        const target = card.getAttribute("data-target");
-        const navLink = document.querySelector(`.nav-link[data-page='${target}']`);
-        if (navLink) navLink.click();
+        const target = card.dataset.target;
+        document.querySelector(`.nav-link[data-page="${target}"]`).click();
       });
     });
+
   } catch (err) {
-    console.error("renderDashboard error:", err);
+    console.error("Error render dashboard:", err);
   }
 }
 
 window.renderDashboard = renderDashboard;
-
-
-
-// // ============================================================
-// // dashboard.js — Statistik Ringkas + Chart WP
-// // ============================================================
-// import { authFetch } from "../modules/utils.js";
-
-// // fungsi kecil buat animasi count-up
-// function animateNumber(element, target, duration = 800) {
-//   const start = 0;
-//   const increment = target / (duration / 16);
-//   let current = start;
-//   function update() {
-//     current += increment;
-//     if (current < target) {
-//       element.textContent = Math.floor(current);
-//       requestAnimationFrame(update);
-//     } else {
-//       element.textContent = target;
-//     }
-//   }
-//   requestAnimationFrame(update);
-// }
-
-// export async function renderDashboard() {
-
-//   try {
-//     // ambil semua data utama
-//     const [altRes, kriRes, stokRes, admRes, calcRes] = await Promise.all([
-//       authFetch("/api/spk/alternatif"),
-//       authFetch("/api/spk/kriteria"),
-//       authFetch("/api/spk/stok"),
-//       authFetch("/api/auth/users"),
-//       authFetch("/api/spk/calculate"),
-//     ]);
-
-//     if (![altRes, kriRes, stokRes, admRes, calcRes].every(r => r.ok)) {
-//       console.error("Gagal mengambil salah satu sumber data.");
-//       return;
-//     }
-
-//     const [alternatif, kriteria, stok, admin, hasil] = await Promise.all([
-//       altRes.json(),
-//       kriRes.json(),
-//       stokRes.json(),
-//       admRes.json(),
-//       calcRes.json(),
-//     ]);
-
-//     // isi card dengan animasi
-//     animateNumber(document.getElementById("card-alternatif"), alternatif.length);
-//     animateNumber(document.getElementById("card-kriteria"), kriteria.length);
-//     animateNumber(
-//       document.getElementById("card-stok-rendah"),
-//       stok.filter(s => (s.jumlah_stok ?? 0) < 10).length
-//     );
-//     animateNumber(document.getElementById("card-admin"), admin.length);
-
-//     // render chart WP
-//     const ctx = document.getElementById("chartWpResults").getContext("2d");
-//     const chartData = hasil.map(h => ({
-//       label: h.nama_alternatif,
-//       value: parseFloat(h.nilai_preferensi) || 0,
-//     }));
-
-    
-
-    
-
-//     // hapus chart lama kalau ada
-//     if (window.wpChart) window.wpChart.destroy();
-
-//     window.wpChart = new Chart(ctx, {
-//       type: "bar",
-//       data: {
-//         labels: chartData.map(d => d.label),
-//         datasets: [
-//           {
-//             label: "Nilai Preferensi",
-//             data: chartData.map(d => d.value),
-//             borderWidth: 1,
-//           },
-//         ],
-//       },
-//       options: {
-//         responsive: true,
-//         plugins: { legend: { display: false } },
-//         scales: {
-//           y: {
-//             beginAtZero: true,
-//             title: { display: true, text: "Nilai Preferensi" },
-//           },
-//         },
-//       },
-//     });
-
-//     // 🔹 navigasi dari card
-// document.querySelectorAll("#dashboard-cards > div[data-target]").forEach(card => {
-//   card.addEventListener("click", () => {
-//     const target = card.getAttribute("data-target");
-//     const navLink = document.querySelector(`.nav-link[data-page='${target}']`);
-//     if (navLink) navLink.click();
-//   });
-// });
-
-//   } catch (err) {
-//     console.error("renderDashboard error:", err);
-//   }
-// }
-
-// window.renderDashboard = renderDashboard;

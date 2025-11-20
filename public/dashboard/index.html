@@ -47,6 +47,9 @@
         <a href="#" data-page="stok" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
           <i class="fa-solid fa-boxes-stacked fa-fw mr-3"></i>Stok Obat
         </a>
+        <!-- <a href="#" data-page="konversi" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+    <i class="fa-solid fa-sliders-h mr-3"></i>Pengaturan Nilai Klinis
+</a> -->
         <a href="#" data-page="pengguna" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
           <i class="fa-solid fa-users-gear fa-fw mr-3"></i>Kelola Pengguna
         </a>
@@ -99,7 +102,90 @@
 
 
       <!-- 🟣 Beranda -->
-      <section id="page-beranda" class="page-content">
+       <section id="page-beranda" class="page-content">
+
+  <p class="text-gray-600 mb-4">Selamat datang di dashboard analitik SPK Weighted Product Hipertensi.</p>
+
+  <!-- 🔥 Analytics Cards -->
+  <div id="dashboard-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    
+    <div data-target="alternatif"
+      class="cursor-pointer flex items-center p-4 rounded-xl shadow bg-purple-100 text-purple-700 hover:bg-purple-200 transition transform hover:-translate-y-1">
+      <i class="fa-solid fa-pills text-3xl mr-3"></i>
+      <div>
+        <p class="text-sm font-medium">Total Alternatif</p>
+        <p id="card-alternatif" class="text-2xl font-bold">0</p>
+      </div>
+    </div>
+
+    <div data-target="kriteria"
+      class="cursor-pointer flex items-center p-4 rounded-xl shadow bg-blue-100 text-blue-700 hover:bg-blue-200 transition transform hover:-translate-y-1">
+      <i class="fa-solid fa-list-check text-3xl mr-3"></i>
+      <div>
+        <p class="text-sm font-medium">Total Kriteria</p>
+        <p id="card-kriteria" class="text-2xl font-bold">0</p>
+      </div>
+    </div>
+
+    <div data-target="stok"
+      class="cursor-pointer flex items-center p-4 rounded-xl shadow bg-yellow-100 text-yellow-700 hover:bg-yellow-200 transition transform hover:-translate-y-1">
+      <i class="fa-solid fa-boxes-stacked text-3xl mr-3"></i>
+      <div>
+        <p class="text-sm font-medium">Stok Rendah (&lt;10)</p>
+        <p id="card-stok-rendah" class="text-2xl font-bold">0</p>
+      </div>
+    </div>
+
+    <div data-target="pengguna"
+      class="cursor-pointer flex items-center p-4 rounded-xl shadow bg-green-100 text-green-700 hover:bg-green-200 transition transform hover:-translate-y-1">
+      <i class="fa-solid fa-user-gear text-3xl mr-3"></i>
+      <div>
+        <p class="text-sm font-medium">Total Admin</p>
+        <p id="card-admin" class="text-2xl font-bold">0</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 🎯 Saran Terbaik -->
+  <div class="bg-purple-50 border border-purple-200 p-4 rounded-xl shadow mb-6">
+    <p class="text-purple-700 font-semibold text-lg">
+      🎯 Alternatif Terbaik: <span id="alternatif-terbaik" class="font-bold"></span>
+    </p>
+  </div>
+
+  <!-- 📊 Chart WP -->
+  <div class="bg-white p-6 rounded-xl shadow mb-6">
+    <h3 class="text-xl font-semibold text-purple-800 mb-4">Visualisasi Nilai WP</h3>
+    <div class="w-full h-[450px]">
+      <canvas id="chartWpResults"></canvas>
+    </div>
+  </div>
+
+  <!-- 🏆 Top 5 Ranking WP -->
+  <div class="bg-white p-6 rounded-xl shadow mb-6">
+    <h3 class="text-xl font-semibold text-purple-800 mb-4">Top 5 Ranking Weighted Product</h3>
+    <table class="w-full text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-3 py-2 text-left">#</th>
+          <th class="px-3 py-2 text-left">Alternatif</th>
+          <th class="px-3 py-2 text-left">Nilai WP</th>
+        </tr>
+      </thead>
+      <tbody id="top5-ranking"></tbody>
+    </table>
+  </div>
+
+  <!-- 🧮 Bobot Kriteria -->
+  <div class="bg-white p-6 rounded-xl shadow">
+    <h3 class="text-xl font-semibold text-purple-800 mb-4">Bobot & Tipe Kriteria</h3>
+    <div id="bobot-kriteria" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </div>
+
+</section>
+
+      <!-- <section id="page-beranda" class="page-content">
         <p class="text-gray-600">Selamat datang di dashboard SPK Weighted Product Hipertensi.</p>
          <div id="dashboard-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div data-target="alternatif"
@@ -138,12 +224,15 @@
   </div>
 </div>
 
-  <div class="bg-white p-6 rounded-xl shadow">
-    <h3 class="text-xl font-semibold text-purple-800 mb-4">Nilai Preferensi Alternatif</h3>
-    <canvas id="chartWpResults" height="100"></canvas>
+ <div class="bg-white p-6 rounded-xl shadow">
+  <h3 class="text-xl font-semibold text-purple-800 mb-4">Nilai Preferensi Alternatif</h3>
+
+  <div class="w-full h-[450px]">
+    <canvas id="chartWpResults"></canvas>
   </div>
+</div>
          </div>
-      </section>
+      </section> -->
 
       <!-- 🟣 Profil -->
       <!-- <section id="page-profil" class="page-content hidden">
@@ -214,11 +303,18 @@
       </section>
 
       <section id="page-nilai" class="page-content hidden">
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <h3 class="text-xl font-semibold text-purple-800 mb-4">Input Nilai Alternatif</h3>
-          <div id="nilai-container" class="overflow-x-auto"></div>
-        </div>
-      </section>
+  <div class="bg-white p-6 rounded-xl shadow-lg">
+    <h3 class="text-xl font-semibold text-purple-800 mb-4">Input Nilai Alternatif</h3>
+
+    <div class="flex items-center gap-3 mb-4">
+      <!-- <button id="btn-refresh-autofill" class="bg-indigo-500 text-white px-3 py-2 rounded">Refresh Auto-Fill</button>
+      <button id="btn-save-nilai" class="bg-green-600 text-white px-3 py-2 rounded">Simpan Perubahan</button> -->
+      <span id="status-simpan" class="text-sm text-green-600 ml-3 hidden">✔ Disimpan</span>
+    </div>
+
+    <div id="nilai-container" class="overflow-x-auto"></div>
+  </div>
+</section>
 
       <section id="page-hasil" class="page-content hidden">
         <div class="bg-white p-6 rounded-xl shadow-lg">
@@ -248,6 +344,7 @@
           <th class="px-4 py-3 text-left">Golongan</th>
           <th class="px-4 py-3 text-left">Nama Dagang</th>
           <th class="px-4 py-3 text-left">Produsen</th>
+          <th class="px-4 py-3 text-left">Efek Samping</th>
           <th class="px-4 py-3 text-left">Jumlah Stok</th>
           <th class="px-4 py-3 text-left">Tanggal Update</th>
           <th class="px-4 py-3 text-right">Aksi</th>
@@ -257,6 +354,28 @@
     </table>
   </div>
 </section>
+
+<!-- <section id="page-konversi" class="page-content hidden">
+  <div class="bg-white p-6 rounded-xl shadow-lg">
+    <h3 class="text-xl font-semibold text-purple-800 mb-4">Pengaturan Nilai Klinis</h3>
+
+    <p class="mb-2 font-medium">Skala Likert Maksimum</p>
+    <select id="skala-likert" class="border px-3 py-2 rounded mb-4">
+      <option value="5">1–5</option>
+      <option value="7">1–7</option>
+      <option value="10">1–10</option>
+    </select>
+
+    <button id="btn-simpan-konversi"
+      class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+      Simpan & Perbarui Nilai Klinis
+    </button>
+
+    <p id="status-konversi" class="mt-4 text-green-700 font-medium hidden">
+      Nilai berhasil diperbarui!
+    </p>
+  </div>
+</section> -->
 
 
 <section id="page-pengguna" class="page-content hidden">
@@ -284,9 +403,33 @@
 
       <section id="page-laporan" class="page-content hidden">
         <div class="bg-white p-6 rounded-xl shadow-lg">
+  <h3 class="text-xl font-semibold text-purple-800 mb-4">Laporan Hasil SPK</h3>
+
+  <div class="flex space-x-3 mb-4">
+    <input type="date" id="start-date" class="border px-3 py-2 rounded w-40">
+    <span class="py-2">s.d.</span>
+    <input type="date" id="end-date" class="border px-3 py-2 rounded w-40">
+
+    <button id="filter-btn" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+      Filter
+    </button>
+
+    <button id="btn-excel" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+      Excel
+    </button>
+
+    <button id="btn-pdf" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+      PDF
+    </button>
+  </div>
+
+  <div id="laporan-container"></div>
+</div>
+
+        <!-- <div class="bg-white p-6 rounded-xl shadow-lg">
           <h3 class="text-xl font-semibold text-purple-800 mb-4">Laporan Hasil SPK</h3>
           <div id="laporan-container"></div>
-        </div>
+        </div> -->
       </section>
     </main>
   </div>

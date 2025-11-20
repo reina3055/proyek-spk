@@ -116,7 +116,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 
+document.getElementById("btn-simpan-konversi")?.addEventListener("click", async () => {
+  const skala = document.getElementById("skala-likert").value;
 
+  await authFetch("/api/spk/konversi/setSkala", {
+    method: "POST",
+    body: JSON.stringify({ skala }),
+  });
+
+  await authFetch("/api/spk/konversi/refresh", {
+    method: "POST"
+  });
+
+  document.getElementById("status-konversi").classList.remove("hidden");
+});
 
 // //mungkin harus ditambahkan import2an
 

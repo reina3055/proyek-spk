@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
               method: "POST",
               body: JSON.stringify({
                 tanggal,
-                nama_alternatif: h.nama_alternatif,
-                nilai_preferensi: h.nilai_preferensi,
+                nama_alternatif: h.nama,
+                nilai_preferensi: h.nilai,
                 saran_terbaik: saran
               })
             });

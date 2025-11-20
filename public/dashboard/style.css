@@ -22,7 +22,19 @@ body {
 }
 
 /* Memastikan canvas responsif di dalam containernya */
-canvas {
+/* canvas {
   max-width: 100%;
-  height: auto !important; /* Override inline height untuk responsivitas jika perlu, tapi biarkan Chart.js mengelola rasio */
+  /* height: auto !important; Override inline height untuk responsivitas jika perlu, tapi biarkan Chart.js mengelola rasio */
+/* } */ 
+/* canvas:not(#chartWpResults) {
+  max-width: 100%;
+  height: auto !important;
+} */
+ canvas {
+  height: auto !important;
+ }
+
+#chartWpResults {
+  height: 350px !important;
+  width: 100% !important;
 }
