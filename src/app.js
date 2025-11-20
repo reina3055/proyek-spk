@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
 import { pool } from "./config/db.js";
+//import { autoKonversiNilai } from "./utils/autoKonversiNilaiKlinis.js";
+
 
 // Routes
 // import authRoutes from "./routes/auth/authRoutes.js";
@@ -53,6 +55,10 @@ dotenv.config();
     console.error("❌ Database connection failed:", err);
   }
 })();
+
+// autoKonversiNilai()
+//   .then(() => console.log("WP klinis otomatis terisi!"))
+//   .catch((e) => console.error("WP klinis gagal init:", e));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));

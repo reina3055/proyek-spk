@@ -41,7 +41,7 @@ export async function authFetch(url, options = {}) {
   }
 }
 
-
+window.authFetch = authFetch;
 
 
 // // public/dashboard/utils.js

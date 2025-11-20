@@ -38,12 +38,12 @@ export async function tambahKriteria(req, res) {
 // ============================
 export async function updateKriteria(req, res) {
   const { id } = req.params;
-  const { nama, bobot, tipe } = req.body;
+  const { nama_kriteria, bobot, tipe } = req.body;
   try {
     await pool.query(
       "UPDATE kriteria SET nama_kriteria=?, bobot=?, tipe=? WHERE id_kriteria=?",
-      [nama_kriteria, bobot, tipe, id]
-    );
+      [ nama_kriteria, bobot, tipe, id ]
+    ); 
     res.json({ message: "✅ Kriteria berhasil diperbarui" });
   } catch (err) {
     console.error("❌ updateKriteria:", err);

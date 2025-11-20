@@ -1,10 +1,14 @@
 import express from "express";
-import { getAllNilai } from "../../controllers/spk/nilaiController.js";
-import { bulkUpdateNilai } from "../../controllers/spk/nilaiController.js";
+import { getAllNilai, bulkUpdateNilai } from "../../controllers/spk/nilaiController.js";
+//import { bulkUpdateNilai } from "../../controllers/spk/nilaiController.js";
+
+
 const router = express.Router();
 
 router.get("/", getAllNilai); // kalau sudah ada
 router.post("/bulk", bulkUpdateNilai);
+// Ambil nilai auto-fill (diambil dari konversi DB atau dari nilai tabel)
+//router.get("/autofill", getAutoFilledValues);
 
 export default router;
 

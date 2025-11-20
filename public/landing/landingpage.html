@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPK Apoteker - Sistem Rekomendasi Obat Hipertensi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+     <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">💊</div>
+                <div class="logo-text">SPK Apoteker</div>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle">☰</button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Beranda</a></li>
+                <li><a href="#features" class="nav-link">Fitur</a></li>
+                <li><a href="#how-it-works" class="nav-link">Cara Kerja</a></li>
+                <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                <li><a href="#testimonials" class="nav-link">Testimoni</a></li>
+                <li><a href="#cta" class="nav-link btn btn-secondary">Request Demo</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1 class="hero-title">Tingkatkan Akurasi Resep Obat Hipertensi dengan Sistem AI</h1>
+            <p class="hero-subtitle">SPK Apoteker menggunakan metode Weighted Product untuk memberikan rekomendasi obat hipertensi terbaik yang disesuaikan dengan kondisi pasien Anda.</p>
+            <div>
+                <a href="#cta" class="btn">Request Demo Gratis</a>
+                <a href="#features" class="btn btn-secondary">Pelajari Lebih Lanjut</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Mengapa Memilih SPK Apoteker?</h2>
+            <p class="section-subtitle">Sistem kami dirancang khusus untuk membantu apoteker dalam mengambil keputusan yang tepat dalam pemilihan obat hipertensi</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚖️</div>
+                    <h3 class="feature-title">Metode Weighted Product</h3>
+                    <p class="feature-description">Menggunakan algoritma weighted product yang telah teruji untuk memberikan rekomendasi obat hipertensi yang paling sesuai dengan kondisi pasien.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Analisis Multi-Kriteria</h3>
+                    <p class="feature-description">Mempertimbangkan berbagai faktor seperti efektivitas, efek samping, harga, dan interaksi obat untuk hasil yang komprehensif.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3 class="feature-title">Dashboard yang Intuitif</h3>
+                    <p class="feature-description">Antarmuka yang mudah digunakan memungkinkan apoteker fokus pada pasien, bukan pada software yang rumit.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3 class="feature-title">Hemat Waktu</h3>
+                    <p class="feature-description">Proses pemilihan obat yang sebelumnya memakan waktu lama kini dapat diselesaikan dalam hitungan menit.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Data yang Aman</h3>
+                    <p class="feature-description">Data pasien dan obat disimpan dengan enkripsi tingkat tinggi untuk menjaga kerahasiaan informasi.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Akses di Mana Saja</h3>
+                    <p class="feature-description">Akses sistem dari desktop, tablet, atau smartphone dengan pengalaman yang optimal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Bagaimana Cara Kerjanya?</h2>
+            <p class="section-subtitle">Hanya dalam 4 langkah sederhana, dapatkan rekomendasi obat terbaik untuk pasien hipertensi</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Input Data Pasien</h3>
+                    <p>Masukkan data pasien seperti usia, tekanan darah, riwayat penyakit, dan kondisi lainnya.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Tentukan Kriteria</h3>
+                    <p>Pilih kriteria yang relevan seperti efektivitas, efek samping, harga, dan interaksi obat.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Analisis dengan Weighted Product</h3>
+                    <p>Sistem akan menganalisis data menggunakan metode weighted product untuk menentukan pilihan terbaik.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Dapatkan Rekomendasi</h3>
+                    <p>Terima rekomendasi obat hipertensi yang paling sesuai dengan kondisi pasien Anda.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview Section -->
+    <section class="dashboard-preview" id="dashboard">
+        <div class="container">
+            <h2 class="section-title">Dashboard yang Powerful dan Mudah Digunakan</h2>
+            <p class="section-subtitle">Kelola data kriteria, alternatif obat, dan lihat hasil analisis dalam satu tampilan yang terintegrasi</p>
+            <div class="dashboard-image">
+                <!-- Placeholder for dashboard screenshot -->
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Dashboard SPK Apoteker">
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">Apa Kata Pengguna Kami?</h2>
+            <p class="section-subtitle">Dengarkan pengalaman langsung dari apoteker yang telah menggunakan sistem kami</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Sejak menggunakan SPK Apoteker, waktu yang saya butuhkan untuk merekomendasikan obat hipertensi berkurang drastis. Sistem ini sangat membantu dalam praktik sehari-hari."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Dr. Sari" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Dr. Sari Wijaya, M.Farm.</h4>
+                            <p>Apoteker Senior, Apotek Sehat Jaya</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Analisis multi-kriterianya sangat komprehensif. Saya sekarang bisa dengan percaya diri memberikan rekomendasi yang tepat untuk pasien dengan kondisi kompleks."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Budi Santoso" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Budi Santoso, S.Farm., Apt.</h4>
+                            <p>Kepala Apotek, Farmasi Utama</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Dashboard-nya sangat user-friendly. Tidak butuh waktu lama untuk memahami cara penggunaannya. Tim support juga sangat responsif."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Diana Putri" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Diana Putri, S.Farm.</h4>
+                            <p>Apoteker, Klinik Medika Prima</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="cta">
+        <div class="container">
+            <h2 class="cta-title">Siap Meningkatkan Layanan Apotek Anda?</h2>
+            <p class="cta-subtitle">Bergabunglah dengan apoteker profesional lainnya yang telah menggunakan SPK Apoteker untuk memberikan rekomendasi obat hipertensi terbaik kepada pasien mereka.</p>
+            
+            <div class="demo-form">
+                <h3 style="margin-bottom: 1.5rem; text-align: center;">Request Demo Gratis</h3>
+                <form id="requestDemoForm">
+                    <div class="form-group">
+                        <label for="name">Nama Lengkap</label>
+                        <input type="text" id="name" class="form-control" placeholder="Masukkan nama lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="Masukkan alamat email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="institution">Institusi/Apotek</label>
+                        <input type="text" id="institution" class="form-control" placeholder="Nama apotek atau institusi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Nomor Telepon</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Masukkan nomor telepon" required>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Request Demo Sekarang</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SPK Apoteker</h3>
+                    <p>Sistem Pendukung Keputusan berbasis Weighted Product untuk rekomendasi obat hipertensi terbaik.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Tautan Cepat</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Beranda</a></li>
+                        <li><a href="#features">Fitur</a></li>
+                        <li><a href="#how-it-works">Cara Kerja</a></li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#testimonials">Testimoni</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Kontak</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope fa-fw"></i> info@spkapoteker.com</li>
+                        <li><i class="fas fa-phone fa-fw"></i> (021) 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt fa-fw"></i> Jl. Kesehatan No. 123, Jakarta</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 SPK Apoteker. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+<script src="./js/script.js"></script>
+</body>
+</html>

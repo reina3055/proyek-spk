@@ -4,13 +4,18 @@ import { pool } from "../config/db.js";
 export const getAllStok = async () => {
   const [rows] = await pool.query(`
     SELECT 
-      s.id,
+      s.id_stok,
       s.id_alternatif,
       s.nama_obat,
       s.golongan,
+      s.fungsi,
       s.nama_dagang,
+      s.efek_samping_teks,
       s.produsen,
       s.jumlah_stok,
+      s.biaya_bulanan,
+      s.frekuensi_dosis,
+      s.kontraindikasi_teks,
       s.tanggal_update
     FROM stok_obat s
     ORDER BY s.tanggal_update DESC

@@ -13,4 +13,4 @@ export { getAlternatif, tambahAlternatif, updateAlternatif, hapusAlternatif } fr
 export { getKriteria, tambahKriteria, updateKriteria, hapusKriteria } from "./spk/kriteriaController.js";
 export { getAllNilai, bulkUpdateNilai } from "./spk/nilaiController.js";
 export { hitungWP } from "./spk/perhitunganController.js";
-export { getLaporan, exportLaporanExcel, exportLaporanPDF } from "./spk/laporanController.js";
+export { getLaporanController, exportLaporanExcel, exportLaporanPDF } from "./spk/laporanController.js";
