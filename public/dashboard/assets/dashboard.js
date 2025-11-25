@@ -19,27 +19,27 @@ function animateNumber(el, target, duration = 700) {
 
 export async function renderDashboard() {
   try {
-    const [alt, kri, stok, adm, calc] = await Promise.all([
+    const [alt, kri, adm, calc] = await Promise.all([
       authFetch("/api/spk/alternatif"),
       authFetch("/api/spk/kriteria"),
-      authFetch("/api/spk/stok"),
+      //authFetch("/api/spk/stok"),
       authFetch("/api/auth/users"),
       authFetch("/api/spk/calculate"), // sudah WP versi baru
     ]);
 
     const alternatif = await alt.json();
     const kriteria = await kri.json();
-    const stokData = await stok.json();
+    //const stokData = await stok.json();
     const admin = await adm.json();
     const hasil = await calc.json(); // WP sekarang -> score + preferensi
 
     // Update Cards
     animateNumber(document.getElementById("card-alternatif"), alternatif.length);
     animateNumber(document.getElementById("card-kriteria"), kriteria.length);
-    animateNumber(
-      document.getElementById("card-stok-rendah"),
-      stokData.filter(s => (s.jumlah_stok ?? 0) < 10).length
-    );
+    // animateNumber(
+    //   document.getElementById("card-stok-rendah"),
+    //   stokData.filter(s => (s.jumlah_stok ?? 0) < 10).length
+    // );
     animateNumber(document.getElementById("card-admin"), admin.length);
 
     // ============================

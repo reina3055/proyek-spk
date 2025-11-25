@@ -54,37 +54,37 @@ export async function openModal(type, id = null) {
       </form>`;
   }
 
-  else if (type === "stok") {
-    title = id ? "Edit Stok Obat" : "Tambah Stok Obat";
-    formHtml = `
-      <form id="form-stok" data-type="stok" class="space-y-3">
-        <input type="hidden" name="id" value="${id || ""}">
-        <div>
-          <label class="block text-sm font-medium">Nama Obat</label>
-          <input type="text" name="nama_obat" class="w-full border rounded-lg px-3 py-2" required>
-        </div>
-        <div>
-          <label class="block text-sm font-medium">Golongan</label>
-          <input type="text" name="golongan" class="w-full border rounded-lg px-3 py-2">
-        </div>
-        <div>
-          <label class="block text-sm font-medium">Nama Dagang</label>
-          <input type="text" name="nama_dagang" class="w-full border rounded-lg px-3 py-2">
-        </div>
-        <div>
-          <label class="block text-sm font-medium">Produsen</label>
-          <input type="text" name="produsen" class="w-full border rounded-lg px-3 py-2">
-        </div>
-        <div>
-          <label class="block text-sm font-medium">Efek Samping</label>
-          <input type="text" name="efek_samping_teks" class="w-full border rounded-lg px-3 py-2">
-        </div>
-        <div>
-          <label class="block text-sm font-medium">Jumlah Stok</label>
-          <input type="number" name="jumlah_stok" class="w-full border rounded-lg px-3 py-2" required>
-        </div>
-      </form>`;
-  }
+  // else if (type === "stok") {
+  //   title = id ? "Edit Stok Obat" : "Tambah Stok Obat";
+  //   formHtml = `
+  //     <form id="form-stok" data-type="stok" class="space-y-3">
+  //       <input type="hidden" name="id" value="${id || ""}">
+  //       <div>
+  //         <label class="block text-sm font-medium">Nama Obat</label>
+  //         <input type="text" name="nama_obat" class="w-full border rounded-lg px-3 py-2" required>
+  //       </div>
+  //       <div>
+  //         <label class="block text-sm font-medium">Golongan</label>
+  //         <input type="text" name="golongan" class="w-full border rounded-lg px-3 py-2">
+  //       </div>
+  //       <div>
+  //         <label class="block text-sm font-medium">Nama Dagang</label>
+  //         <input type="text" name="nama_dagang" class="w-full border rounded-lg px-3 py-2">
+  //       </div>
+  //       <div>
+  //         <label class="block text-sm font-medium">Produsen</label>
+  //         <input type="text" name="produsen" class="w-full border rounded-lg px-3 py-2">
+  //       </div>
+  //       <div>
+  //         <label class="block text-sm font-medium">Efek Samping</label>
+  //         <input type="text" name="efek_samping_teks" class="w-full border rounded-lg px-3 py-2">
+  //       </div>
+  //       <div>
+  //         <label class="block text-sm font-medium">Jumlah Stok</label>
+  //         <input type="number" name="jumlah_stok" class="w-full border rounded-lg px-3 py-2" required>
+  //       </div>
+  //     </form>`;
+  // }
 
   else if (type === "pengguna") {
     title = id ? "Edit Pengguna" : "Tambah Pengguna";
@@ -143,15 +143,15 @@ if (id) form.dataset.id = id;
             id: data.id_alternatif,
             nama_obat: data.nama_obat
           },
-          stok: {
-            id: data.id,
-            nama_obat: data.nama_obat,
-            golongan: data.golongan,
-            nama_dagang: data.nama_dagang,
-            produsen: data.produsen,
-            efek_samping_teks: data.efek_samping_teks,
-            jumlah_stok: data.jumlah_stok
-          },
+          // stok: {
+          //   id: data.id,
+          //   nama_obat: data.nama_obat,
+          //   golongan: data.golongan,
+          //   nama_dagang: data.nama_dagang,
+          //   produsen: data.produsen,
+          //   efek_samping_teks: data.efek_samping_teks,
+          //   jumlah_stok: data.jumlah_stok
+          // },
           pengguna: {
             id: data.id,
             nama: data.nama,
@@ -282,7 +282,7 @@ if (type === "kriteria") {
     // panggil fungsi reload sesuai tipe data
 if (type === "kriteria") loadKriteria();
 else if (type === "alternatif") loadAlternatif();
-else if (type === "stok") loadStok();
+//else if (type === "stok") loadStok();
 else if (type === "pengguna") loadPengguna(); // reload tabel setelah simpan
   } catch (err) {
     console.error(`❌ handleFormSubmit error:`, err);
@@ -348,60 +348,60 @@ export async function hapusAlternatif(id) {
 }
 
 // ---------- Stok Obat CRUD ----------
-export async function loadStok() {
-  const tbody = document.getElementById("tbody-stok");
-  if (!tbody) return;
+// export async function loadStok() {
+//   const tbody = document.getElementById("tbody-stok");
+//   if (!tbody) return;
 
-  tbody.innerHTML = `<tr><td colspan="9" class="text-center py-6 text-gray-500">Memuat data stok obat...</td></tr>`;
+//   tbody.innerHTML = `<tr><td colspan="9" class="text-center py-6 text-gray-500">Memuat data stok obat...</td></tr>`;
 
-  try {
-    const res = await authFetch("/api/spk/stok");
-    const data = await res.json();
+//   try {
+//     const res = await authFetch("/api/spk/stok");
+//     const data = await res.json();
 
-    tbody.innerHTML = data
-      .map(
-        (s, i) => `
-        <tr>
-          <td class="px-4 py-2">${i + 1}</td>
-          <td class="px-4 py-2">${s.nama_obat || "-"}</td>
-          <td class="px-4 py-2">${s.golongan || "-"}</td>
-          <td class="px-4 py-2">${s.nama_dagang || "-"}</td>
-          <td class="px-4 py-2">${s.produsen || "-"}</td>
-          <td class="px-4 py-2">${s.efek_samping_teks || "-"}</td>
-          <td class="px-4 py-2">${s.jumlah_stok ?? 0}</td>
-          <td class="px-4 py-2">${new Date(s.tanggal_update).toLocaleString()}</td>
-          <td class="px-4 py-2 text-right space-x-2">
-            <button onclick="openModal('stok', ${s.id})"
-            class="bg-purple-100 text-purple-700 px-3 py-1 rounded-md hover:bg-purple-200 transition text-sm">
-             <i class="fa-solid fa-pen mr-1"></i>Edit
-             </button>
-             <button onclick="hapusStok(${s.id})"
-             class="bg-red-100 text-red-700 px-3 py-1 rounded-md hover:bg-red-200 transition text-sm">
-             <i class="fa-solid fa-trash mr-1"></i>Hapus
-             </button>
-          </td>
-        </tr>`
-      )
-      .join("");
-  } catch (err) {
-    console.error("loadStok error:", err);
-    tbody.innerHTML = `<tr><td colspan="9" class="text-center text-red-500 py-6">Gagal memuat data stok obat.</td></tr>`;
-  }
-}
-export async function hapusStok(id) {
-  if (!confirm("Yakin ingin menghapus stok obat ini?")) return;
-  try {
-    await authFetch(`/api/spk/stok/${id}`, { method: "DELETE" });
-    loadStok();
-  } catch (err) {
-    console.error("hapusStok error:", err);
-    alert("Gagal menghapus stok obat.");
-  }
-}
+//     tbody.innerHTML = data
+//       .map(
+//         (s, i) => `
+//         <tr>
+//           <td class="px-4 py-2">${i + 1}</td>
+//           <td class="px-4 py-2">${s.nama_obat || "-"}</td>
+//           <td class="px-4 py-2">${s.golongan || "-"}</td>
+//           <td class="px-4 py-2">${s.nama_dagang || "-"}</td>
+//           <td class="px-4 py-2">${s.produsen || "-"}</td>
+//           <td class="px-4 py-2">${s.efek_samping_teks || "-"}</td>
+//           <td class="px-4 py-2">${s.jumlah_stok ?? 0}</td>
+//           <td class="px-4 py-2">${new Date(s.tanggal_update).toLocaleString()}</td>
+//           <td class="px-4 py-2 text-right space-x-2">
+//             <button onclick="openModal('stok', ${s.id})"
+//             class="bg-purple-100 text-purple-700 px-3 py-1 rounded-md hover:bg-purple-200 transition text-sm">
+//              <i class="fa-solid fa-pen mr-1"></i>Edit
+//              </button>
+//              <button onclick="hapusStok(${s.id})"
+//              class="bg-red-100 text-red-700 px-3 py-1 rounded-md hover:bg-red-200 transition text-sm">
+//              <i class="fa-solid fa-trash mr-1"></i>Hapus
+//              </button>
+//           </td>
+//         </tr>`
+//       )
+//       .join("");
+//   } catch (err) {
+//     console.error("loadStok error:", err);
+//     tbody.innerHTML = `<tr><td colspan="9" class="text-center text-red-500 py-6">Gagal memuat data stok obat.</td></tr>`;
+//   }
+// }
+// export async function hapusStok(id) {
+//   if (!confirm("Yakin ingin menghapus stok obat ini?")) return;
+//   try {
+//     await authFetch(`/api/spk/stok/${id}`, { method: "DELETE" });
+//     loadStok();
+//   } catch (err) {
+//     console.error("hapusStok error:", err);
+//     alert("Gagal menghapus stok obat.");
+//   }
+// }
 
-// attach ke window supaya bisa dipanggil global
-window.loadStok = window.loadStok || loadStok;
-window.hapusStok = window.hapusStok || hapusStok;
+// // attach ke window supaya bisa dipanggil global
+// window.loadStok = window.loadStok || loadStok;
+// window.hapusStok = window.hapusStok || hapusStok;
 
 
 export async function loadPengguna() {
