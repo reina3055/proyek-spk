@@ -1,4 +1,4 @@
-import * as stokModel from "../../models/stokModel.js";
+import * as stokModel from "../../models/stokModel copy.js";
 //import { autoKonversiNilai } from "../../utils/autoKonversiNilaiKlinis.js";
 
 
