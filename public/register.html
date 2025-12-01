@@ -6,6 +6,7 @@
   <title>Register Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
   tailwind.config = {
     theme: {
@@ -29,13 +30,30 @@
       <form id="registerForm" class="space-y-6">
         <input id="nama" type="text" placeholder="Nama Lengkap" required class="w-full px-4 py-3 border rounded-lg">
         <input id="email" type="email" placeholder="Email" required class="w-full px-4 py-3 border rounded-lg">
-        <input id="password" type="password" placeholder="Password" required class="w-full px-4 py-3 border rounded-lg">
+       <div class="relative">
+  <input 
+    type="password" 
+    id="password" 
+    name="password" 
+    required
+    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 pr-10" 
+    placeholder="Masukkan password"
+  >
 
-        <select id="role" required class="w-full px-3 py-2 border rounded-lg">
+  <button 
+    type="button" 
+    id="togglePassword"
+    class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-purple-600 focus:outline-none"
+  >
+    <i class="fa-solid fa-eye"></i>
+  </button>
+</div>
+
+        <!-- <select id="role" required class="w-full px-3 py-2 border rounded-lg">
           <option value="">Pilih Role</option>
           <option value="admin">Admin</option>
           <option value="super-admin">Super Admin</option>
-        </select>
+        </select> -->
 
         <p id="errorMessage" class="text-sm text-red-600 text-center opacity-0"></p>
         <p id="successMessage" class="text-sm text-green-600 text-center opacity-0"></p>

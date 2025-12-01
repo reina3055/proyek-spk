@@ -86,29 +86,37 @@ export async function openModal(type, id = null) {
   //     </form>`;
   // }
 
-  else if (type === "pengguna") {
+ else if (type === "pengguna") {
     title = id ? "Edit Pengguna" : "Tambah Pengguna";
     formHtml = `
       <form id="form-pengguna" data-type="pengguna" class="space-y-3">
         <input type="hidden" name="id" value="${id || ""}">
+        
         <div>
-          <label class="block text-sm font-medium">Nama</label>
+          <label class="block text-sm font-medium">Username</label>
+          <input type="text" name="username" class="w-full border rounded-lg px-3 py-2" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Nama Lengkap</label>
           <input type="text" name="nama" class="w-full border rounded-lg px-3 py-2" required>
         </div>
+
         <div>
           <label class="block text-sm font-medium">Email</label>
           <input type="email" name="email" class="w-full border rounded-lg px-3 py-2" required>
         </div>
-        <div>
-          <label class="block text-sm font-medium">Password</label>
-          <input type="password" name="password" class="w-full border rounded-lg px-3 py-2" ${id ? "" : "required"}>
-        </div>
+        
         <div>
           <label class="block text-sm font-medium">Role</label>
           <select name="role" class="w-full border rounded-lg px-3 py-2" required>
             <option value="admin">Admin</option>
-            <option value="super-admin">Super-user</option>
-          </select>
+            </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Password ${id ? '(Kosongkan jika tidak diganti)' : ''}</label>
+          <input type="password" name="password" class="w-full border rounded-lg px-3 py-2" ${id ? "" : "required"}>
         </div>
       </form>`;
   }
@@ -154,10 +162,12 @@ if (id) form.dataset.id = id;
           // },
           pengguna: {
             id: data.id,
+            username: data.username,
             nama: data.nama,
             email: data.email,
             role: data.role
           }
+          
         };
 
         const filled = map[type];
@@ -201,7 +211,7 @@ export async function loadKriteria() {
         <tr>
           <td class="px-4 py-2">${i + 1}</td>
           <td class="px-4 py-2">${k.nama_kriteria}</td>
-          <td class="px-4 py-2">${k.bobot}</td>
+          <td class="px-4 py-2">${Number(k.bobot).toFixed(2)}</td>
           <td class="px-4 py-2">${k.tipe}</td>
           <td class="px-4 py-2 text-right space-x-2">
             <button onclick="openModal('kriteria', ${k.id_kriteria})"
@@ -508,12 +518,13 @@ export async function renderInputNilai() {
                   data-alt="${a.id_alternatif}"
                   data-kri="${k.id_kriteria}"
                 >
-                  <option value="">-</option>
-                  <option value="1" ${v == 1 ? "selected" : ""}>1 - Sangat Buruk</option>
-                  <option value="2" ${v == 2 ? "selected" : ""}>2 - Buruk</option>
-                  <option value="3" ${v == 3 ? "selected" : ""}>3 - Cukup</option>
-                  <option value="4" ${v == 4 ? "selected" : ""}>4 - Baik</option>
-                  <option value="5" ${v == 5 ? "selected" : ""}>5 - Sangat Baik</option>
+                  // Ganti bagian option dropdown dengan ini biar aman untuk Cost & Benefit
+                  <option value="">- Pilih Nilai -</option>
+                   <option value="1" ${v == 1 ? "selected" : ""}>1 - Sangat Rendah / Murah / Buruk</option>
+                   <option value="2" ${v == 2 ? "selected" : ""}>2 - Rendah</option>
+                   <option value="3" ${v == 3 ? "selected" : ""}>3 - Sedang</option>
+                   <option value="4" ${v == 4 ? "selected" : ""}>4 - Tinggi</option>
+                   <option value="5" ${v == 5 ? "selected" : ""}>5 - Sangat Tinggi / Mahal / Baik</option>
                 </select>
               </td>
             `;

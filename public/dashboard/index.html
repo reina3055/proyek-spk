@@ -20,43 +20,49 @@
 
   <div class="flex h-screen">
     <!-- 🔹 Sidebar -->
-    <aside id="sidebar" class="w-64 bg-purple-800 text-white flex flex-col">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-purple-800 text-white transition-all duration-300 transform -translate-x-full md:translate-x-0 md:static md:flex flex-col shadow-xl overflow-hidden">
       <div class="p-5 border-b border-purple-700">
         <h2 class="text-xl font-bold leading-tight">SPK WP Hipertensi</h2>
         <p class="text-xs opacity-80">Admin Dashboard</p>
       </div>
-      <nav class="flex-1 p-4 space-y-2">
-        <a href="#" data-page="beranda" class="nav-link block px-3 py-2 rounded-md bg-purple-700 font-medium">
-          <i class="fa-solid fa-house fa-fw mr-3"></i>Beranda
-        </a>
-        <!-- <a href="#" data-page="profil" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
-          <i class="fa-solid fa-user fa-fw mr-3"></i>Profil Admin
-        </a> -->
-        <a href="#" data-page="kriteria" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
-          <i class="fa-solid fa-list-check fa-fw mr-3"></i>Kriteria
-        </a>
-        <a href="#" data-page="alternatif" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
-          <i class="fa-solid fa-pills fa-fw mr-3"></i>Alternatif (Obat)
-        </a>
-        <a href="#" data-page="nilai" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
-          <i class="fa-solid fa-pen-to-square fa-fw mr-3"></i>Input Nilai
-        </a>
-        <a href="#" data-page="hasil" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
-          <i class="fa-solid fa-calculator fa-fw mr-3"></i>Hasil Perhitungan
-        </a>
-        <!-- <a href="#" data-page="stok" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
-          <i class="fa-solid fa-boxes-stacked fa-fw mr-3"></i>Stok Obat
-        </a> -->
-        <!-- <a href="#" data-page="konversi" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
-    <i class="fa-solid fa-sliders-h mr-3"></i>Pengaturan Nilai Klinis
-</a> -->
-        <a href="#" data-page="pengguna" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
-          <i class="fa-solid fa-users-gear fa-fw mr-3"></i>Kelola Pengguna
-        </a>
-        <a href="#" data-page="laporan" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
-          <i class="fa-solid fa-file-lines fa-fw mr-3"></i>Laporan
-        </a>
-      </nav>
+      <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+  <a href="#" data-page="beranda" class="nav-link block px-3 py-2 rounded-md bg-purple-700 font-medium">
+    <i class="fa-solid fa-house fa-fw mr-3"></i>Beranda
+  </a>
+  <a href="#" data-page="profil" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+    <i class="fa-solid fa-user fa-fw mr-3"></i>Profil Admin
+  </a>
+
+  <div class="pt-2 pb-1">
+    <hr class="border-purple-600 opacity-50">
+    <p class="text-xs text-purple-300 mt-2 px-3 uppercase tracking-wider font-semibold">Data SPK</p>
+  </div>
+
+  <a href="#" data-page="kriteria" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+    <i class="fa-solid fa-list-check fa-fw mr-3"></i>Kriteria
+  </a>
+  <a href="#" data-page="alternatif" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+    <i class="fa-solid fa-pills fa-fw mr-3"></i>Alternatif (Obat)
+  </a>
+  <a href="#" data-page="nilai" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+    <i class="fa-solid fa-pen-to-square fa-fw mr-3"></i>Input Nilai
+  </a>
+  <a href="#" data-page="hasil" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+    <i class="fa-solid fa-calculator fa-fw mr-3"></i>Hasil Perhitungan
+  </a>
+
+  <div class="pt-2 pb-1">
+    <hr class="border-purple-600 opacity-50">
+    <p class="text-xs text-purple-300 mt-2 px-3 uppercase tracking-wider font-semibold">Lainnya</p>
+  </div>
+
+  <a href="#" data-page="pengguna" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+    <i class="fa-solid fa-users-gear fa-fw mr-3"></i>Kelola Pengguna
+  </a>
+  <a href="#" data-page="laporan" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+    <i class="fa-solid fa-file-lines fa-fw mr-3"></i>Laporan
+  </a>
+</nav>
 
       <div class="p-4 border-t border-purple-700">
         <button id="logout-btn" class="w-full text-center bg-red-700 py-2 rounded-md font-medium hover:bg-red-600 transition">
@@ -68,14 +74,20 @@
     <!-- 🔹 Main content -->
     <main class="flex-1 p-8 overflow-y-auto">
      <header class="mb-8 flex justify-between items-center relative">
-  <div>
-    <h1 id="page-title" class="text-2xl font-bold text-purple-700">
-      Dashboard SPK Weighted Product Hipertensi
-    </h1>
-    <p class="text-sm text-gray-500">Sistem Pendukung Keputusan Metode Weighted Product</p>
+  <div class="flex items-center">
+    
+    <button id="hamburger-btn" class="mr-4 text-purple-700 focus:outline-none p-2 rounded hover:bg-purple-100 transition">
+      <i class="fa-solid fa-bars text-2xl"></i>
+    </button>
+
+    <div>
+      <h1 id="page-title" class="text-2xl font-bold text-purple-700 leading-tight">
+        Dashboard SPK
+      </h1>
+      <p class="text-sm text-gray-500 hidden sm:block">Sistem Pendukung Keputusan Metode Weighted Product</p>
+    </div>
   </div>
 
-  <!-- Profil Admin Dropdown -->
   <div class="relative">
     <button id="profile-btn" class="flex items-center space-x-3 focus:outline-none">
       <div class="text-right hidden sm:block">
@@ -89,11 +101,10 @@
       <i class="fa-solid fa-chevron-down text-gray-500 ml-1"></i>
     </button>
 
-    <!-- Dropdown -->
     <div id="profile-dropdown"
       class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
       <button id="logout-Btn"
-        class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center">
+        class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center rounded-lg">
         <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
       </button>
     </div>
@@ -235,27 +246,171 @@
       </section> -->
 
       <!-- 🟣 Profil -->
-      <!-- <section id="page-profil" class="page-content hidden">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <section class="bg-white p-6 rounded-xl shadow text-center">
-            <form id="form-foto" enctype="multipart/form-data">
-              <div id="profil-foto" class="relative inline-block">
-                <img id="foto-admin" src="https://via.placeholder.com/100/A78BFA/FFFFFF?text=A"
-                    alt="Foto Admin" class="w-24 h-24 rounded-full border-4 border-purple-300 object-cover mx-auto">
-                <label for="upload-foto"
-                      class="absolute bottom-0 right-0 bg-purple-600 text-white px-2 py-1 text-xs rounded cursor-pointer hover:bg-purple-700">Ganti</label>
-                <input type="file" id="upload-foto" name="foto" class="hidden" accept="image/*">
+      <section id="page-profil" class="page-content hidden">
+  <div class="max-w-6xl mx-auto">
+    
+    <div class="mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">Profil Saya</h2>
+      <p class="text-gray-500 text-sm">Kelola informasi profil dan keamanan akun Anda.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 relative">
+          <div class="h-32 bg-gradient-to-r from-purple-600 to-indigo-600"></div>
+          
+          <div class="px-6 pb-6 text-center relative">
+            <form id="form-foto" enctype="multipart/form-data" class="relative inline-block -mt-16 mb-4">
+              <div class="relative group">
+                <img id="foto-admin" 
+                     src="https://via.placeholder.com/150/A78BFA/FFFFFF?text=A"
+                     alt="Foto Admin" 
+                     class="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover bg-white">
+                
+                <label for="upload-foto" 
+                       class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition cursor-pointer">
+                  <i class="fa-solid fa-camera text-2xl"></i>
+                </label>
               </div>
+              <input type="file" id="upload-foto" name="foto" class="hidden" accept="image/*">
               <input type="hidden" id="user-id" name="id">
             </form>
-            <h2 id="nama-admin" class="text-lg font-semibold mt-3">Admin</h2>
-            <p id="email-admin" class="text-gray-500 text-sm">admin@spk.com</p>
-            <a href="../landing/index.html" target="_blank" class="inline-block mt-3 bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700">
-              🌐 Lihat Halaman Publik
-            </a>
-          </section>
+
+            <h3 id="nama-admin-card" class="text-xl font-bold text-gray-800">Admin User</h3>
+            <p id="role-admin-card" class="text-purple-600 font-medium text-sm mb-1">Administrator</p>
+            <p id="email-admin-card" class="text-gray-500 text-sm">admin@spk.com</p>
+
+            <div class="mt-6 border-t border-gray-100 pt-4">
+              <div class="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-2">Status Akun</div>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span> Aktif
+              </span>
+            </div>
+          </div>
         </div>
-      </section> -->
+      </div>
+
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 sm:p-8">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold text-gray-800 border-b-2 border-purple-500 pb-1 inline-block">Informasi Pribadi</h3>
+          </div>
+
+          <form id="form-update-profil" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="edit-nama" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-user text-gray-400"></i>
+                  </div>
+                  <input type="text" id="edit-nama" name="nama" 
+                         class="pl-10 block w-full rounded-lg border-gray-300 border bg-gray-50 text-gray-900 focus:ring-purple-500 focus:border-purple-500 sm:text-sm p-2.5 transition" 
+                         placeholder="Nama Anda">
+                </div>
+              </div>
+
+              <div>
+                <label for="edit-username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-at text-gray-400"></i>
+                  </div>
+                  <input type="text" id="edit-username" name="username" 
+                         class="pl-10 block w-full rounded-lg border-gray-300 border bg-gray-50 text-gray-900 focus:ring-purple-500 focus:border-purple-500 sm:text-sm p-2.5 transition" 
+                         placeholder="Username">
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label for="edit-email" class="block text-sm font-medium text-gray-700 mb-2">Alamat Email</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fa-solid fa-envelope text-gray-400"></i>
+                </div>
+                <input type="email" id="edit-email" name="email" 
+                       class="pl-10 block w-full rounded-lg border-gray-300 border bg-gray-50 text-gray-900 focus:ring-purple-500 focus:border-purple-500 sm:text-sm p-2.5 transition" 
+                       placeholder="nama@email.com">
+              </div>
+            </div>
+
+            <div class="flex justify-end pt-4">
+              <button type="submit" 
+                      class="flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 shadow-lg transition transform hover:-translate-y-0.5">
+                <i class="fa-solid fa-save mr-2"></i> Simpan Perubahan
+              </button>
+            </div>
+          </form>
+          <hr class="my-8 border-gray-200">
+
+<div class="flex justify-between items-center mb-6">
+  <h3 class="text-lg font-bold text-gray-800 border-b-2 border-red-500 pb-1 inline-block">Ganti Password</h3>
+</div>
+
+<form id="form-ganti-password" class="space-y-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="md:col-span-2">
+      <label for="pass-lama" class="block text-sm font-medium text-gray-700 mb-2">Password Saat Ini</label>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <i class="fa-solid fa-key text-gray-400"></i>
+        </div>
+        <input type="password" id="pass-lama" name="oldPassword" required
+                class="pl-10 block w-full rounded-lg border-gray-300 border bg-gray-50 text-gray-900 focus:ring-red-500 focus:border-red-500 sm:text-sm p-2.5 transition" 
+                placeholder="Masukkan password lama">
+                <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none toggle-password">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <label for="pass-baru" class="block text-sm font-medium text-gray-700 mb-2">Password Baru</label>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <i class="fa-solid fa-lock text-gray-400"></i>
+        </div>
+        <input type="password" id="pass-baru" name="newPassword" required
+                class="pl-10 block w-full rounded-lg border-gray-300 border bg-gray-50 text-gray-900 focus:ring-red-500 focus:border-red-500 sm:text-sm p-2.5 transition" 
+                placeholder="Minimal 6 karakter">
+                <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none toggle-password">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <label for="pass-konfirm" class="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Password</label>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <i class="fa-solid fa-check-double text-gray-400"></i>
+        </div>
+        <input type="password" id="pass-konfirm" name="confirmPassword" required
+                class="pl-10 block w-full rounded-lg border-gray-300 border bg-gray-50 text-gray-900 focus:ring-red-500 focus:border-red-500 sm:text-sm p-2.5 transition" 
+                placeholder="Ulangi password baru">
+                <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none toggle-password">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end pt-4">
+    <button type="submit" 
+            class="flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-lg transition transform hover:-translate-y-0.5">
+      <i class="fa-solid fa-shield-halved mr-2"></i> Update Password
+    </button>
+  </div>
+</form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       <!-- 🟣 CRUD pages -->
       <section id="page-kriteria" class="page-content hidden">
@@ -405,7 +560,7 @@
         <div class="bg-white p-6 rounded-xl shadow-lg">
   <h3 class="text-xl font-semibold text-purple-800 mb-4">Laporan Hasil SPK</h3>
 
-  <div class="flex space-x-3 mb-4">
+  <!-- <div class="flex space-x-3 mb-4">
     <input type="date" id="start-date" class="border px-3 py-2 rounded w-40">
     <span class="py-2">s.d.</span>
     <input type="date" id="end-date" class="border px-3 py-2 rounded w-40">
@@ -421,7 +576,7 @@
     <button id="btn-pdf" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
       PDF
     </button>
-  </div>
+  </div> -->
 
   <div id="laporan-container"></div>
 </div>
@@ -435,8 +590,8 @@
   </div>
 
   <!-- 🔹 Modal global -->
-  <div id="modal-backdrop" class="fixed inset-0 bg-black/50 hidden"></div>
-  <div id="crud-modal" class="fixed inset-0 hidden items-center justify-center overflow-y-auto">
+  <div id="modal-backdrop" class="fixed inset-0 bg-black/50 hidden z-[60]"></div>
+  <div id="crud-modal" class="fixed inset-0 hidden items-center justify-center overflow-y-auto z-[70]">
     <div id="modal-content" class="bg-white p-6 rounded-xl w-full max-w-md shadow-lg transform transition overflow-y-auto">
       <h2 id="modal-title" class="text-lg font-bold text-purple-800 mb-4"></h2>
       <div id="modal-body"></div>
@@ -446,17 +601,21 @@
       </div>
     </div>
   </div>
-
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden glass-effect"></div>
   <script>
     // sembunyikan preloader setelah halaman siap, atau jika load profil gagal
   async function hidePreloader() {
     const pre = document.getElementById("preloader");
-    if (pre) pre.style.display = "none";
-  }
+    if (pre) { 
+      pre.style.opacity = "0";
+      pre.style.transition = "opacity 0.3s ease"
+      setTimeout(() => pre.style.display = "none", 300)
+  } }
 
   window.addEventListener("load", () => {
     // kasih timeout maksimal supaya gak nyangkut kalau fetch gagal
-    setTimeout(hidePreloader, 3000);
+    // setTimeout(hidePreloader, 3000);
+    hidePreloader();
   });
 
   // pastikan logout tetap jalan

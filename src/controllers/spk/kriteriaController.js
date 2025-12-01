@@ -14,6 +14,28 @@ export async function getKriteria(req, res) {
   }
 }
 
+export async function getKriteriaById(req, res) {
+  try {
+    const { id } = req.params;
+    
+    // Query ke database
+    const [rows] = await pool.query("SELECT * FROM kriteria WHERE id_kriteria = ?", [id]);
+
+    // Cek apakah data ditemukan
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Kriteria tidak ditemukan" });
+    }
+
+    // PENTING: Kirim rows[0] (objek), bukan rows (array)
+    // Supaya di frontend langsung bisa baca data.nama_kriteria
+    res.json(rows[0]); 
+    
+  } catch (err) {
+    console.error("❌ Error getKriteriaById:", err);
+    res.status(500).json({ message: "Gagal mengambil data kriteria" });
+  }
+}
+
 // ============================
 // 🔹 TAMBAH Kriteria
 // ============================

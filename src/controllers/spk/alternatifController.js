@@ -12,6 +12,22 @@ export async function getAlternatif(req, res) {
   }
 }
 
+export async function getAlternatifById(req, res) {
+  try {
+    const { id } = req.params;
+    const [rows] = await pool.query("SELECT * FROM alternatif WHERE id_alternatif = ?", [id]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Alternatif tidak ditemukan" });
+    }
+
+    res.json(rows[0]); // Kirim objek data (bukan array)
+  } catch (err) {
+    console.error("❌ Error getAlternatifById:", err);
+    res.status(500).json({ message: "Gagal mengambil data alternatif" });
+  }
+}
+
 // ============================
 // 🔹 TAMBAH Alternatif
 // ============================
@@ -65,6 +81,3 @@ export async function hapusAlternatif(req, res) {
 
 // Hasil WP — pastikan hasilAkhir terdefinisi sebelum digunakan
 // Pindahkan INSERT laporan setelah res.json, hapus duplikasi bawah.
-
-
-

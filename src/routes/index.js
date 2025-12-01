@@ -1,12 +1,13 @@
 import express from "express";
 import authRoutes from "./auth/authRoutes.js";
 import spkRoutersAggregator from "./spk/spkRoutersAggregator.js"; // ⬅️ rename aja
-import konversiRoutes from "./spk/konversiRoutes.js"
+//import konversiRoutes from "./spk/konversiRoutesCopy.js"
 
 const router = express.Router();
 
 router.use("/auth", authRoutes);
 router.use("/spk", spkRoutersAggregator);
-router.use("/spk", konversiRoutes);
+router.use("/upload-photo", authRoutes);
+
 
 export default router;

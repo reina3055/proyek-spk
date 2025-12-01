@@ -9,8 +9,8 @@ export { checkSession } from "./auth/sessionController.js";
 export { updateFotoProfil } from "./auth/uploadController.js";
 
 // ==== SPK CONTROLLERS ====
-export { getAlternatif, tambahAlternatif, updateAlternatif, hapusAlternatif } from "./spk/alternatifController.js";
-export { getKriteria, tambahKriteria, updateKriteria, hapusKriteria } from "./spk/kriteriaController.js";
+export { getAlternatif, tambahAlternatif, getAlternatifById, updateAlternatif, hapusAlternatif } from "./spk/alternatifController.js";
+export { getKriteria, getKriteriaById, tambahKriteria, updateKriteria, hapusKriteria } from "./spk/kriteriaController.js";
 export { getAllNilai, bulkUpdateNilai } from "./spk/nilaiController.js";
 export { hitungWP } from "./spk/perhitunganController.js";
 export { getLaporanController, exportLaporanExcel, exportLaporanPDF } from "./spk/laporanController.js";

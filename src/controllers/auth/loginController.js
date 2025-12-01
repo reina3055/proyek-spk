@@ -7,10 +7,10 @@ import { SECRET_KEY } from "../../config/secret.js";
 export async function login(req, res) {
   try {
     console.log("📩 req.body:", req.body);
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
 
     // validasi awal
-    if (!email || !password || !role) {
+    if (!email || !password) {
       console.warn("⚠️ Field login belum lengkap!");
       return res.status(400).json({ message: "Semua field wajib diisi!" });
     }
@@ -40,28 +40,67 @@ export async function login(req, res) {
     }
 
     // validasi role (admin / super-admin)
-    if (user.role !== role) {
-      console.warn(`🚫 Role tidak sesuai (${role}) untuk user: ${user.username}`);
-      return res.status(403).json({ message: "Role tidak sesuai!" });
+    if (user.role !== 'admin') {
+      console.warn(`🚫 Akses ditolak, bukan admin!`);
+      return res.status(403).json({ message: "Bukan admin!" });
     }
 
     // buat JWT token
     const token = jwt.sign(
-      { id: user.id, username: user.username, role: user.role },
+      { id: user.id, username: user.username, role: 'admin' },
       SECRET_KEY,
       { expiresIn: "1h" }
     );
 
-    console.log(`✅ Login berhasil: ${user.username} sebagai ${user.role}`);
+    console.log(`✅ Login berhasil: ${user.username} sebagai 'admin`);
 
     res.json({
       message: "Login berhasil!",
       token,
-      user: { id: user.id, username: user.username, role: user.role },
+      user: { id: user.id, username: user.username, role: 'admin' },
     });
   } catch (err) {
     console.error("❌ Error di loginController:", err);
     res.status(500).json({ message: "Terjadi kesalahan server", error: err.message });
+  }
+}
+
+// === GANTI PASSWORD ===
+export async function changePassword(req, res) {
+  try {
+    const userId = req.user.id; // Dari token middleware
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ message: "Password lama dan baru wajib diisi!" });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: "Password baru minimal 6 karakter!" });
+    }
+
+    // 1. Ambil hash password lama dari DB
+    const [rows] = await pool.query("SELECT password FROM users WHERE id = ?", [userId]);
+    if (rows.length === 0) return res.status(404).json({ message: "User tidak ditemukan." });
+
+    const currentHash = rows[0].password;
+
+    // 2. Cek apakah password lama benar
+    const isMatch = await bcrypt.compare(oldPassword, currentHash);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Password lama salah!" });
+    }
+
+    // 3. Hash password baru & Simpan
+    const newHash = await bcrypt.hash(newPassword, 10);
+    await pool.query("UPDATE users SET password = ? WHERE id = ?", [newHash, userId]);
+
+    console.log(`🔐 User ID ${userId} berhasil ganti password.`);
+    res.json({ message: "Password berhasil diperbarui! Silakan login ulang." });
+
+  } catch (err) {
+    console.error("❌ Gagal ganti password:", err);
+    res.status(500).json({ message: "Terjadi kesalahan server." });
   }
 }
 

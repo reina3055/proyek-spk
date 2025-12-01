@@ -33,7 +33,7 @@ export async function checkSession(req, res) {
     const decoded = jwt.verify(token, SECRET_KEY);
     console.log("token diterima", token);
     const [rows] = await pool.query(
-      "SELECT id, username, role, foto FROM users WHERE id=?",
+      "SELECT id, username, nama, email, role, foto FROM users WHERE id=?",
       [decoded.id]
     );
 

@@ -4,9 +4,9 @@ import { pool } from "../../config/db.js";
 // === REGISTER ADMIN / SUPER-ADMIN ===
 export async function registerAdmin(req, res) {
   try {
-    const { nama, email, password, role } = req.body;
+    const { nama, email, password} = req.body;
 
-    if (!nama || !email || !password || !role) {
+    if (!nama || !email || !password) {
       console.warn("⚠️ Field register belum lengkap!");
       return res.status(400).json({ message: "Lengkapi semua data!" });
     }
@@ -20,12 +20,12 @@ export async function registerAdmin(req, res) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     await pool.query(
-      "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?, ?)",
-      [ nama, nama, email, hashedPassword, role]
+      "INSERT INTO users (username, nama, email, password, role) VALUES (?, ?, ?, ?, ?)",
+      [ nama, nama, email, hashedPassword, 'admin']
     );
 
-    console.log(`🧾 Register berhasil: ${nama} sebagai ${role}`);
-    res.json({ message: `Akun ${role} berhasil dibuat!` });
+    console.log(`🧾 Register berhasil: ${nama} sebagai admin`);
+    res.json({ message: `Akun admin berhasil dibuat!` });
   } catch (err) {
     console.error("❌ Error registerAdmin:", err);
     res.status(500).json({ message: "Terjadi kesalahan server", error: err.message });
@@ -65,9 +65,9 @@ export async function getUserById(req, res) {
 export async function updateUser(req, res) {
   try {
     const { id } = req.params;
-    const { username, nama, email, role } = req.body;
+    const { username, nama, email } = req.body;
 
-    if (!username || !nama || !email || !role) {
+    if (!username || !nama || !email) {
       return res.status(400).json({ message: "Semua field wajib diisi." });
     }
 
@@ -77,7 +77,7 @@ export async function updateUser(req, res) {
 
     await pool.query(
       "UPDATE users SET username = ?, nama = ?, email = ?, role = ? WHERE id = ?",
-      [username, nama, email, role, id]
+      [username, nama, email, 'admin', id]
     );
 
     console.log(`📝 User id=${id} berhasil diperbarui.`);
