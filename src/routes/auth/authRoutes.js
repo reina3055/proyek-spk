@@ -3,7 +3,7 @@ import multer from "multer";
 import path from "path";
 import chalk from "chalk";
 
-import { login, logout } from "../../controllers/auth/loginController.js";
+import { login, logout, changePassword } from "../../controllers/auth/loginController.js";
 import {
   checkSession,
   verifyTokenController,
@@ -59,10 +59,10 @@ function logAction(action, user = "-", color = "blue") {
 router.get(
   "/admin-only",
   verifyToken,
-  authorizeRole(["super-admin"]),
+  authorizeRole(["admin"]),
   (req, res) => {
-    logAction("access", req.user?.username || "super-admin", "magenta");
-    res.json({ message: "✅ Hanya super-admin yang bisa lihat ini." });
+    logAction("access", req.user?.username || "admin", "magenta");
+    res.json({ message: "✅ Hanya admin yang bisa lihat ini." });
   }
 );
 
@@ -90,10 +90,10 @@ router.post("/login", async (req, res, next) => {
 // router.delete("/spk/users/:id", verifyToken, authorizeRole(["admin", "super-admin"]), deleteUser);
 
 // Kelola pengguna
-router.get("/users", verifyToken, authorizeRole(["super-admin", "admin"]), getAllUsers);
-router.get("/users/:id", verifyToken, authorizeRole(["super-admin", "admin"]), getUserById);
-router.put("/users/:id", verifyToken, authorizeRole(["super-admin, admin"]), updateUser);
-router.delete("/users/:id", verifyToken, authorizeRole(["super-admin"]), deleteUser);
+router.get("/users", verifyToken, authorizeRole(["admin"]), getAllUsers);
+router.get("/users/:id", verifyToken, authorizeRole(["admin"]), getUserById);
+router.put("/users/:id", verifyToken, authorizeRole(["admin"]), updateUser);
+router.delete("/users/:id", verifyToken, authorizeRole(["admin"]), deleteUser);
 
 router.post("/logout", async (req, res, next) => {
   logAction("logout", req.body?.email || "-", "red");
@@ -109,5 +109,10 @@ router.post("/upload-foto", upload.single("foto"), (req, res, next) => {
   logAction("upload", req.body?.id || "-", "blue");
   next();
 }, updateFotoProfil);
+
+router.post("/change-password", verifyToken, (req, res, next) => {
+ logAction("password", req.user?.username || "-", "yellow"); // Opsional kalau mau log
+  next();
+}, changePassword);
 
 export default router;

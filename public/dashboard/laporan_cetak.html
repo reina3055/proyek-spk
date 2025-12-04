@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cetak Laporan SPK</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Styling khusus mode cetak */
+    @media print {
+      @page { size: A4; margin: 2cm; }
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .no-print { display: none; }
+    }
+    body { font-family: 'Times New Roman', Times, serif; } /* Font formal laporan */
+  </style>
+</head>
+<body class="bg-gray-100 p-8 print:bg-white print:p-0">
+
+  <div class="max-w-[21cm] mx-auto bg-white p-8 shadow-lg print:shadow-none print:w-full">
+    
+    <div class="text-center border-b-2 border-black pb-4 mb-6">
+      <h1 class="text-2xl font-bold uppercase tracking-wider">Sistem Pendukung Keputusan (SPK)</h1>
+      <h2 class="text-xl font-bold">Rekomendasi Obat Hipertensi Metode Weighted Product</h2>
+      <p class="text-sm mt-1">Laporan Hasil Perhitungan & Rekomendasi</p>
+    </div>
+
+    <div class="flex justify-between mb-4 text-sm">
+      <div>
+        <p>Dicetak Oleh: <span id="admin-name" class="font-semibold">-</span></p>
+        <p>Tanggal Cetak: <span id="tanggal-cetak">-</span></p>
+      </div>
+      <div class="text-right">
+        <p>Periode Data:</p>
+        <p id="periode-filter" class="font-semibold">-</p>
+      </div>
+    </div>
+
+    <table class="w-full border-collapse border border-gray-400 text-sm">
+      <thead>
+        <tr class="bg-gray-200 text-black">
+          <th class="border border-gray-400 px-3 py-2 text-center w-12">No</th>
+          <th class="border border-gray-400 px-3 py-2 text-left">Tanggal Hitung</th>
+          <th class="border border-gray-400 px-3 py-2 text-left">Nama Obat (Alternatif)</th>
+          <th class="border border-gray-400 px-3 py-2 text-center">Nilai Preferensi</th>
+          <th class="border border-gray-400 px-3 py-2 text-center">Keterangan</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-laporan">
+        <tr><td colspan="5" class="text-center py-4">Memuat data...</td></tr>
+      </tbody>
+    </table>
+
+    <div class="mt-12 flex justify-end">
+      <div class="text-center w-48">
+        <p class="mb-16">Mengetahui,</p>
+        <p class="font-bold underline" id="ttd-nama">( Admin )</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Ambil Parameter URL (Tanggal)
+    const params = new URLSearchParams(window.location.search);
+    const startDate = params.get('start');
+    const endDate = params.get('end');
+
+    // Ambil Token langsung dari LocalStorage (Karena satu domain, jadi bisa akses)
+    const token = localStorage.getItem('token'); 
+
+    // Isi Info Header
+    document.getElementById('tanggal-cetak').textContent = new Date().toLocaleString('id-ID');
+    document.getElementById('periode-filter').textContent = (startDate && endDate) 
+      ? `${startDate} s.d. ${endDate}` 
+      : "Semua Data";
+
+    // Fungsi Fetch Data
+    async function loadData() {
+      if (!token) {
+        alert("Anda belum login!");
+        window.close();
+        return;
+      }
+
+      // Ambil Info User (Buat nama admin)
+      try {
+        const resSesi = await fetch('/api/auth/session', { headers: { "Authorization": `Bearer ${token}` }});
+        const dataSesi = await resSesi.json();
+        if(dataSesi.loggedIn) {
+            document.getElementById('admin-name').textContent = dataSesi.user.nama || dataSesi.user.username;
+            document.getElementById('ttd-nama').textContent = `( ${dataSesi.user.nama || "Admin"} )`;
+        }
+      } catch (e) { console.error(e); }
+
+      // Ambil Data Laporan
+      try {
+        // Bangun URL Query
+        let url = '/api/spk/laporan';
+        if (startDate && endDate) url += `?startDate=${startDate}&endDate=${endDate}`;
+
+        const res = await fetch(url, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        const tbody = document.getElementById('tbody-laporan');
+        
+        if (data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-red-500 font-bold">Tidak ada data laporan.</td></tr>`;
+            return;
+        }
+
+        // Render Baris Tabel
+        tbody.innerHTML = data.map((row, i) => {
+            const nilai = Number(row.nilai_preferensi).toFixed(4);
+            const tgl = new Date(row.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            
+            // Logic Status (Contoh: Rangking 1 di tanggal yg sama dianggap rekomendasi)
+            // Sederhananya, kita anggap baris pertama (karena sudah sorted) adalah yg terbaik
+            let status = "-";
+            if (i === 0) status = "<b>Rekomendasi Utama</b>";
+
+            return `
+            <tr>
+                <td class="border border-gray-400 px-3 py-2 text-center">${i + 1}</td>
+                <td class="border border-gray-400 px-3 py-2">${tgl}</td>
+                <td class="border border-gray-400 px-3 py-2 font-semibold">${row.nama_alternatif}</td>
+                <td class="border border-gray-400 px-3 py-2 text-center">${nilai}</td>
+                <td class="border border-gray-400 px-3 py-2 text-center text-xs">${status}</td>
+            </tr>
+            `;
+        }).join("");
+
+        // Jeda sedikit biar render selesai, lalu print
+        setTimeout(() => {
+            window.print();
+        }, 500);
+
+      } catch (err) {
+        alert("Gagal memuat data: " + err.message);
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>

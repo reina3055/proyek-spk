@@ -4,11 +4,26 @@
 const form = document.getElementById('loginForm');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
-const role = document.getElementById('role');
+//const role = document.getElementById('role');
 const err = document.getElementById('errorMessage');
 const btn = document.getElementById('loginBtn');
 const text = document.getElementById('loginText');
 const spinner = document.getElementById('spinner');
+const togglePassword = document.getElementById('togglePassword');
+const passwordInput = document.getElementById('password');
+
+if (togglePassword && passwordInput) {
+  togglePassword.addEventListener('click', function () {
+    // Cek tipe saat ini (password atau text?)
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+
+    // Ganti Icon (Mata biasa <-> Mata dicoret)
+    const icon = this.querySelector('i');
+    icon.classList.toggle('fa-eye');
+    icon.classList.toggle('fa-eye-slash');
+  });
+}
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -24,7 +39,7 @@ form.addEventListener('submit', async (e) => {
       body: JSON.stringify({
         email: email.value.trim(),
         password: password.value.trim(),
-        role: role.value,
+        role: 'admin',
       }),
     });
 
@@ -35,7 +50,7 @@ form.addEventListener('submit', async (e) => {
     localStorage.setItem('role', data.user.role);
 
     // navigasi
-    if (data.user.role === 'super-admin' || data.user.role === 'admin') {
+    if (data.user.role === 'admin') {
       window.location.href = '/dashboard/index.html';
     } else {
       throw new Error('Role tidak diizinkan.');

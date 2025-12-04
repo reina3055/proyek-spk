@@ -5,12 +5,30 @@ const form = document.getElementById('registerForm');
 const nama = document.getElementById('nama');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
-const role = document.getElementById('role');
+//const role = document.getElementById('role');
 const err = document.getElementById('errorMessage');
 const success = document.getElementById('successMessage');
 const btn = document.getElementById('registerBtn');
 const text = document.getElementById('registerText');
 const spinner = document.getElementById('spinner');
+
+// ============================================
+// Fitur Lihat/Sembunyikan Password
+// ============================================
+const toggleBtn = document.getElementById('togglePassword');
+const passInput = document.getElementById('password');
+
+if (toggleBtn && passInput) {
+  toggleBtn.addEventListener('click', function () {
+    const type = passInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passInput.setAttribute('type', type);
+
+    const icon = this.querySelector('i');
+    icon.classList.toggle('fa-eye');
+    icon.classList.toggle('fa-eye-slash');
+  });
+}
+
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -28,7 +46,7 @@ form.addEventListener('submit', async (e) => {
         nama: nama.value.trim(),
         email: email.value.trim(),
         password: password.value.trim(),
-        role: role.value,
+        role: 'admin',
       }),
     });
 
