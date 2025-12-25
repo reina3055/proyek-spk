@@ -25,7 +25,7 @@ export async function checkSession(req, res) {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    console.log("⚠️ Tidak ada token dikirim dari frontend! ~Nyawnnn😿")
+    console.log("⚠️ Tidak ada token dikirim dari frontend! ")
     return res.status(401).json({ loggedIn: false, message: "Token tidak ada" });
   }
 

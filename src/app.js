@@ -56,7 +56,7 @@ app.get("/", (req, res) => {
 })();
 
 // 2. Logic Port untuk Vercel vs Local
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 16961;
 
 // Hanya jalankan app.listen kalau BUKAN di production (artinya sedang di laptop)
 if (process.env.NODE_ENV !== 'production') {
