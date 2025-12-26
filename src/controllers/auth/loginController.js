@@ -40,24 +40,25 @@ export async function login(req, res) {
     }
 
     // validasi role (admin / super-admin)
-    if (user.role !== 'admin') {
-      console.warn(`🚫 Akses ditolak, bukan admin!`);
+    if (user.role !== 'admin' && user.role !== 'super-admin') {
+      console.warn(`🚫 Akses ditolak, bukan admin!/super admin`);
       return res.status(403).json({ message: "Bukan admin!" });
     }
 
+    console.log("🔍 DEBUG ROLE SEBELUM SIGN:", user.role);
     // buat JWT token
     const token = jwt.sign(
-      { id: user.id, username: user.username, role: 'admin' },
+      { id: user.id, username: user.username, role: user.role },
       SECRET_KEY,
       { expiresIn: "1h" }
     );
 
-    console.log(`✅ Login berhasil: ${user.username} sebagai 'admin`);
+    console.log(`✅ Login berhasil: ${user.username} sebagai '${user.role}'`);
 
     res.json({
       message: "Login berhasil!",
       token,
-      user: { id: user.id, username: user.username, role: 'admin' },
+      user: { id: user.id, username: user.username, role: user.role },
     });
   } catch (err) {
     console.error("❌ Error di loginController:", err);

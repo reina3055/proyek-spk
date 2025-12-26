@@ -39,3 +39,30 @@ export function authorizeRole(allowedRoles = []) {
   };
 }
 
+export const isSuperAdmin = (req, res, next) => {
+    // req.user biasanya didapat dari middleware verifikasi token sebelumnya
+    if (req.user && req.user.role === 'super-admin') {
+        next();
+    } else {
+        return res.status(403).json({ message: "Akses ditolak! Hanya Super Admin." });
+    }
+};
+
+// Middleware Cek Role (Bisa terima 1 role atau lebih)
+export const checkRole = (allowedRoles) => {
+  return (req, res, next) => {
+    // Pastikan req.user ada (dari verifyToken sebelumnya)
+    if (!req.user) {
+      return res.status(401).json({ message: "Tidak terautentikasi." });
+    }
+
+    // Cek apakah role user ada di daftar yang diizinkan
+    if (allowedRoles.includes(req.user.role)) {
+      next();
+    } else {
+      return res.status(403).json({ 
+        message: "Akses Ditolak! Role anda tidak memiliki izin untuk fitur ini." 
+      });
+    }
+  };
+};

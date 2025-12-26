@@ -29,9 +29,9 @@ console.log("main.js loaded");
     if (!res.ok || !data.valid) throw new Error("Token invalid");
 
     // Cek Role
-    if (role !== "admin") {
-      throw new Error("Role tidak sesuai");
-    }
+    // if (role !== "admin") {
+    //   throw new Error("Role tidak sesuai");
+    // }
 
     console.log(`✅ ${role} terverifikasi, lanjut ke dashboard`);
   } catch (err) {
@@ -101,6 +101,8 @@ function setupNavigation() {
     const pageContents = document.querySelectorAll(".page-content");
     const pageTitle = document.getElementById("page-title");
 
+    const userRole = localStorage.getItem('role');
+
     function showPage(pageId, linkEl) {
         // Sembunyikan semua page
         pageContents.forEach((p) => p.classList.add("hidden"));
@@ -117,14 +119,30 @@ function setupNavigation() {
         if (linkEl && pageTitle) pageTitle.textContent = linkEl.textContent.trim();
 
         // Trigger fungsi load data per halaman (Module Loading)
-        if (pageId === "beranda") window.renderDashboard?.();
-        if (pageId === "kriteria") window.loadKriteria?.();
-        if (pageId === "alternatif") window.loadAlternatif?.();
-        if (pageId === "nilai") window.renderInputNilai?.();
-        if (pageId === "hasil") window.loadHasilWP?.();
-        if (pageId === "stok") window.loadStok?.();
-        if (pageId === "pengguna") window.loadPengguna?.();
-        if (pageId === "laporan") window.renderLaporan?.();
+        // if (pageId === "beranda") window.renderDashboard?.();
+        // if (pageId === "kriteria") window.loadKriteria?.();
+        // if (pageId === "alternatif") window.loadAlternatif?.();
+        // if (pageId === "nilai") window.renderInputNilai?.();
+        // if (pageId === "hasil") window.loadHasilWP?.();
+        // if (pageId === "stok") window.loadStok?.();
+        // if (pageId === "pengguna") window.loadPengguna?.();
+        // if (pageId === "laporan") window.renderLaporan?.();
+        if (userRole === 'admin') {
+            if (pageId === "beranda") window.renderDashboard?.(); // Asumsi dashboard isinya data SPK
+            if (pageId === "kriteria") window.loadKriteria?.();
+            if (pageId === "alternatif") window.loadAlternatif?.();
+            if (pageId === "nilai") window.renderInputNilai?.();
+            if (pageId === "hasil") window.loadHasilWP?.();
+            if (pageId === "stok") window.loadStok?.();
+            if (pageId === "laporan") window.renderLaporan?.();
+        }
+        if (userRole === 'super-admin') {
+            if (pageId === "pengguna") window.loadPengguna?.();
+            // Jika super admin punya dashboard sendiri, panggil di sini:
+            // if (pageId === "beranda") window.renderSuperDashboard?.(); 
+        }
+        // C. Fungsi Umum (Bisa diakses keduanya, misal Profil)
+        if (pageId === "profil") window.loadProfil?.();
     }
 
     // Event Listener Klik Menu
@@ -136,10 +154,38 @@ function setupNavigation() {
         });
     });
 
+    const role = localStorage.getItem('role');
+    let defaultPage = "beranda"; 
+
+    // Cari link yang aktif (kalau ada class bg-purple-700 di HTML)
+    // let active = document.querySelector(".nav-link.bg-purple-700");
+    let activeLink = null;
+
+    // Jika tidak ada yang aktif, tentukan default berdasarkan role
+    if (!activeLink) {
+        if (role === 'super-admin') {
+        // 🛡️ Jika Super Admin: Paksa masuk ke menu "Pengguna"
+        activeLink = document.querySelector('[data-page="pengguna"]');
+        
+        // Hapus style aktif dari Beranda (kalau ada sisa)
+        const berandaLink = document.querySelector('[data-page="beranda"]');
+        if (berandaLink) berandaLink.classList.remove("bg-purple-700");
+        } else {
+            // Admin biasa ke Beranda
+            activeLink = document.querySelector('[data-page="beranda"]');
+            // defaultPage = "beranda";
+        }
+    if (activeLink) {
+        // showPage(active.getAttribute("data-page"), active);
+        const pageId = activeLink.getAttribute("data-page");
+        showPage(pageId, activeLink);
+    }
+}
+
     // Load Halaman Default (Biasanya Beranda)
-    const active = document.querySelector(".nav-link.bg-purple-700") || navLinks[0];
-    const defaultPage = active?.getAttribute("data-page") || "beranda";
-    showPage(defaultPage, active);
+    // const active = document.querySelector(".nav-link.bg-purple-700") || navLinks[0];
+    // const defaultPage = active?.getAttribute("data-page") || "beranda";
+    // showPage(defaultPage, active);
 }
 
 // --- Setup Dropdown Header ---

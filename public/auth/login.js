@@ -39,19 +39,23 @@ form.addEventListener('submit', async (e) => {
       body: JSON.stringify({
         email: email.value.trim(),
         password: password.value.trim(),
-        role: 'admin',
+        // role: 'admin',
       }),
     });
 
     const data = await res.json();
+
+    console.log("Respon Server:", data);
     if (!res.ok) throw new Error(data.message || 'Login gagal.');
 
     localStorage.setItem('token', data.token);
     localStorage.setItem('role', data.user.role);
 
+    const role = data.user.role;
     // navigasi
-    if (data.user.role === 'admin') {
+    if (role === 'admin' || role === 'super-admin') {
       window.location.href = '/dashboard/index.html';
+      
     } else {
       throw new Error('Role tidak diizinkan.');
     }

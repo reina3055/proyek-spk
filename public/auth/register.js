@@ -5,13 +5,14 @@ const form = document.getElementById('registerForm');
 const nama = document.getElementById('nama');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
-//const role = document.getElementById('role');
+const role = document.getElementById('role');
 const err = document.getElementById('errorMessage');
 const success = document.getElementById('successMessage');
 const btn = document.getElementById('registerBtn');
 const text = document.getElementById('registerText');
 const spinner = document.getElementById('spinner');
-
+// ... kode sebelumnya ...
+const securityCodeInput = document.getElementById('securityCode'); // Ambil elemen input baru
 // ============================================
 // Fitur Lihat/Sembunyikan Password
 // ============================================
@@ -29,7 +30,7 @@ if (toggleBtn && passInput) {
   });
 }
 
-
+    // ... sisa kode sama ...
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   err.classList.add('opacity-0');
@@ -46,7 +47,8 @@ form.addEventListener('submit', async (e) => {
         nama: nama.value.trim(),
         email: email.value.trim(),
         password: password.value.trim(),
-        role: 'admin',
+        // role: 'admin',
+        securityCode: securityCodeInput.value.trim() // Kirim kode rahasia
       }),
     });
 

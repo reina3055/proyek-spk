@@ -4,7 +4,7 @@
 
 // ==== AUTH CONTROLLERS ====
 export { login, logout } from "./auth/loginController.js";
-export { registerAdmin } from "./auth/registerController.js";
+export { register } from "./auth/registerController.js";
 export { checkSession } from "./auth/sessionController.js";
 export { updateFotoProfil } from "./auth/uploadController.js";
 

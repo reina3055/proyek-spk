@@ -413,6 +413,7 @@ export async function hapusAlternatif(id) {
 // window.loadStok = window.loadStok || loadStok;
 // window.hapusStok = window.hapusStok || hapusStok;
 
+// public/dashboard/modules/crud.js (Bagian loadPengguna)
 
 export async function loadPengguna() {
   const tbody = document.getElementById("tbody-pengguna");
@@ -428,17 +429,29 @@ export async function loadPengguna() {
       (u, i) => `
         <tr>
           <td class="px-4 py-2">${i + 1}</td>
-          <td class="px-4 py-2">${u.username}</td>
+          <td class="px-4 py-2 font-medium">${u.nama || u.username}</td>
           <td class="px-4 py-2">${u.email}</td>
-          <td class="px-4 py-2 capitalize">${u.role}</td>
-          <td class="px-4 py-2 text-right space-x-2">
+          <td class="px-4 py-2">
+            <span class="px-2 py-1 text-xs font-semibold rounded-full ${
+                u.role === 'super-admin' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+            }">
+                ${u.role}
+            </span>
+          </td>
+          <td class="px-4 py-2 text-right space-x-1">
             <button onclick="openModal('pengguna', ${u.id})"
-              class="bg-purple-100 text-purple-700 px-3 py-1 rounded-md hover:bg-purple-200 transition text-sm">
-              <i class="fa-solid fa-pen mr-1"></i>Edit
+              class="bg-purple-100 text-purple-700 px-3 py-1 rounded-md hover:bg-purple-200 transition text-sm" title="Edit User">
+              <i class="fa-solid fa-pen"></i>
             </button>
+            
+            <button onclick="resetUserPass(${u.id}, '${u.username}')"
+              class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-md hover:bg-yellow-200 transition text-sm" title="Reset Password User Ini">
+              <i class="fa-solid fa-key"></i>
+            </button>
+
             <button onclick="hapusPengguna(${u.id})"
-              class="bg-red-100 text-red-700 px-3 py-1 rounded-md hover:bg-red-200 transition text-sm">
-              <i class="fa-solid fa-trash mr-1"></i>Hapus
+              class="bg-red-100 text-red-700 px-3 py-1 rounded-md hover:bg-red-200 transition text-sm" title="Hapus User">
+              <i class="fa-solid fa-trash"></i>
             </button>
           </td>
         </tr>`
@@ -448,6 +461,41 @@ export async function loadPengguna() {
     tbody.innerHTML = `<tr><td colspan="5" class="text-center text-red-500 py-6">Gagal memuat data pengguna.</td></tr>`;
   }
 }
+
+// export async function loadPengguna() {
+//   const tbody = document.getElementById("tbody-pengguna");
+//   if (!tbody) return;
+
+//   tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-gray-500">Memuat data pengguna...</td></tr>`;
+
+//   try {
+//     const res = await authFetch("/api/auth/users");
+//     const data = await res.json();
+
+//     tbody.innerHTML = data.map(
+//       (u, i) => `
+//         <tr>
+//           <td class="px-4 py-2">${i + 1}</td>
+//           <td class="px-4 py-2">${u.username}</td>
+//           <td class="px-4 py-2">${u.email}</td>
+//           <td class="px-4 py-2 capitalize">${u.role}</td>
+//           <td class="px-4 py-2 text-right space-x-2">
+//             <button onclick="openModal('pengguna', ${u.id})"
+//               class="bg-purple-100 text-purple-700 px-3 py-1 rounded-md hover:bg-purple-200 transition text-sm">
+//               <i class="fa-solid fa-pen mr-1"></i>Edit
+//             </button>
+//             <button onclick="hapusPengguna(${u.id})"
+//               class="bg-red-100 text-red-700 px-3 py-1 rounded-md hover:bg-red-200 transition text-sm">
+//               <i class="fa-solid fa-trash mr-1"></i>Hapus
+//             </button>
+//           </td>
+//         </tr>`
+//     ).join("");
+//   } catch (err) {
+//     console.error("loadPengguna error:", err);
+//     tbody.innerHTML = `<tr><td colspan="5" class="text-center text-red-500 py-6">Gagal memuat data pengguna.</td></tr>`;
+//   }
+// }
 
 export async function hapusPengguna(id) {
   if (!confirm("Yakin ingin menghapus pengguna ini?")) return;
@@ -721,9 +769,56 @@ export async function renderInputNilai() {
 //   }
 // }
 
+// public/dashboard/modules/crud.js (Tambahkan di bagian bawah)
+
+export async function resetUserPass(userId, userName) {
+  // 1. Popup SweetAlert minta password baru
+  const { value: newPass } = await Swal.fire({
+      title: `Reset Password: ${userName}`,
+      input: 'text', 
+      inputLabel: 'Masukkan Password Baru untuk user ini',
+      inputPlaceholder: 'Minimal 6 karakter',
+      showCancelButton: true,
+      confirmButtonText: 'Reset Sekarang',
+      cancelButtonText: 'Batal',
+      confirmButtonColor: '#d97706', // Warna oranye
+      inputValidator: (value) => {
+          if (!value) return 'Password tidak boleh kosong!';
+          if (value.length < 6) return 'Password minimal 6 karakter!';
+      }
+  });
+
+  // 2. Jika tombol Reset ditekan
+  if (newPass) {
+      const token = localStorage.getItem("token");
+      Swal.fire({ title: 'Memproses...', didOpen: () => Swal.showLoading() });
+
+      try {
+          const res = await fetch(`/api/auth/users/${userId}/reset-password`, {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({ newPassword: newPass })
+          });
+
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message);
+
+          Swal.fire("Berhasil!", `Password untuk ${userName} telah diubah.`, "success");
+
+      } catch (err) {
+          console.error(err);
+          Swal.fire("Gagal", err.message, "error");
+      }
+  }
+}
+
 // backward compatibility (attach ke window)
 window.loadPengguna = window.loadPengguna || loadPengguna;
 window.hapusPengguna = window.hapusPengguna || hapusPengguna;
+window.resetUserPass = window.resetUserPass || resetUserPass;
 window.openModal = window.openModal || openModal;
 window.closeModal = window.closeModal || closeModal;
 window.loadKriteria = window.loadKriteria || loadKriteria;

@@ -10,6 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="module" src="./main.js"></script>
+  <script src="./assets/roleManager.js"></script>
 </head>
 
 <body class="bg-gray-100 font-sans text-gray-800">
@@ -26,28 +27,28 @@
         <p class="text-xs opacity-80">Admin Dashboard</p>
       </div>
       <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
-  <a href="#" data-page="beranda" class="nav-link block px-3 py-2 rounded-md bg-purple-700 font-medium">
+  <a href="#" data-page="beranda" class="nav-link access-admin block px-3 py-2 rounded-md bg-purple-700 font-medium">
     <i class="fa-solid fa-house fa-fw mr-3"></i>Beranda
   </a>
   <a href="#" data-page="profil" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
     <i class="fa-solid fa-user fa-fw mr-3"></i>Profil Admin
   </a>
 
-  <div class="pt-2 pb-1">
+  <div class="pt-2 pb-1 access-admin">
     <hr class="border-purple-600 opacity-50">
     <p class="text-xs text-purple-300 mt-2 px-3 uppercase tracking-wider font-semibold">Data SPK</p>
   </div>
 
-  <a href="#" data-page="kriteria" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+  <a href="#" data-page="kriteria" class="nav-link access-admin block px-3 py-2 rounded-md hover:bg-purple-700 transition">
     <i class="fa-solid fa-list-check fa-fw mr-3"></i>Kriteria
   </a>
-  <a href="#" data-page="alternatif" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+  <a href="#" data-page="alternatif" class="nav-link access-admin block px-3 py-2 rounded-md hover:bg-purple-700 transition">
     <i class="fa-solid fa-pills fa-fw mr-3"></i>Alternatif (Obat)
   </a>
-  <a href="#" data-page="nilai" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+  <a href="#" data-page="nilai" class="nav-link access-admin block px-3 py-2 rounded-md hover:bg-purple-700 transition">
     <i class="fa-solid fa-pen-to-square fa-fw mr-3"></i>Input Nilai
   </a>
-  <a href="#" data-page="hasil" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+  <a href="#" data-page="hasil" class="nav-link access-admin block px-3 py-2 rounded-md hover:bg-purple-700 transition">
     <i class="fa-solid fa-calculator fa-fw mr-3"></i>Hasil Perhitungan
   </a>
 
@@ -56,10 +57,10 @@
     <p class="text-xs text-purple-300 mt-2 px-3 uppercase tracking-wider font-semibold">Lainnya</p>
   </div>
 
-  <a href="#" data-page="pengguna" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+  <a href="#" data-page="pengguna" class="nav-link access-super block px-3 py-2 rounded-md hover:bg-purple-700 transition">
     <i class="fa-solid fa-users-gear fa-fw mr-3"></i>Kelola Pengguna
   </a>
-  <a href="#" data-page="laporan" class="nav-link block px-3 py-2 rounded-md hover:bg-purple-700 transition">
+  <a href="#" data-page="laporan" class="nav-link access-admin block px-3 py-2 rounded-md hover:bg-purple-700 transition">
     <i class="fa-solid fa-file-lines fa-fw mr-3"></i>Laporan
   </a>
 </nav>
