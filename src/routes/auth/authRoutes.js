@@ -24,15 +24,18 @@ const router = express.Router();
 // ============================
 // 📦 Konfigurasi multer (upload foto profil)
 // ============================
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(process.cwd(), "public/uploads"));
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = `foto_${Date.now()}${path.extname(file.originalname)}`;
-    cb(null, uniqueName);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, path.join(process.cwd(), "public/uploads"));
+//   },
+//   filename: (req, file, cb) => {
+//     const uniqueName = `foto_${Date.now()}${path.extname(file.originalname)}`;
+//     cb(null, uniqueName);
+//   },
+// });
+// const upload = multer({ storage });
+
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // ============================
